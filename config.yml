@@ -873,3 +873,53 @@ raster_mask_raster_fasterize:
     param:
       raster: !expr c("!raster_s", "!raster_m", "!raster_l")
       mask_sf: !expr c("!mask_ssf", "!mask_msf", "!mask_lsf")
+
+raster_extract_polygon_velox:
+  testtype: "Rasterdaten auf Basis von Polygondaten extrahieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "velox"
+    function: "raster_extract_polygon_velox"
+    param:
+      ras: !expr c("!landuse_raster")
+      poly: !expr c("!sprengel")
+
+raster_extract_polygon_raster:
+  testtype: "Rasterdaten auf Basis von Polygondaten extrahieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "raster"
+    function: "raster_extract_polygon_raster"
+    param:
+      ras: !expr c("!landuse_raster")
+      poly: !expr c("!sprengel")
+
+vector_intersect:
+  testtype: "Vektordaten verschneiden: Überschneidung (Intersect)"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  rgeos:
+    package: "rgeos"
+    function: "gIntersection"
+    param:
+      spgeom1: !expr c("!poly_ssp", "poly_msp")
+      spgeom2: !expr c("!poly_2_ssp")
+  sf:
+    package: "sf"
+    function: "st_intersection"
+    param:
+      x: !expr c("!poly_ssf", "!poly_msf")
+      y: !expr c("!poly_2_ssf")
+
+vector_intersect_raster:
+  testtype: "Vektordaten verschneiden: Überschneidung (Intersect)"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  raster:
+    package: "raster"
+    function: "intersect"
+    param:
+      x: !expr c("!poly_ssp")
+      y: !expr c("!poly_2_ssp")

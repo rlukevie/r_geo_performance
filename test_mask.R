@@ -50,7 +50,7 @@ crs(mask_raster) <- crs(raster)
 raster_mask_raster_fasterize <- mask(raster, mask_raster)
 print(Sys.time() - start_time)
 cellStats(raster_mask_raster_fasterize, stat = 'sum')
-plot(raster_mask_raster)
+plot(raster_mask_raster_fasterize)
 
 # RQGIS
 library(raster)

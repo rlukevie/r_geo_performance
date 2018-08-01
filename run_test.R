@@ -1,5 +1,9 @@
 library(config)
 
+# GLOBAL VARIABLES
+WRITE_OUTPUT = TRUE
+
+
 # --- define helper functions
 load_packages <- function(config) {
   packages <- unlist(sapply(config, `[`, "package"), use.names = FALSE)
@@ -472,31 +476,31 @@ source("test_functions.R")
 #                                                                                           #
 #############################################################################################
 
-raster_mask_raster <- function(raster, mask) {
-  raster_name <- deparse(substitute(raster))
-  mask_name <- deparse(substitute(mask))
-  filename <- paste0("data_output/raster_mask_raster_", raster_name, "_", mask_name, ".tif")
-  raster <- crop(raster, mask)
-  crs(mask) <- crs(raster)
-  raster_mask_raster <- mask(raster, mask)
-  writeRaster(raster_mask_raster, filename, overwrite = TRUE)
-}
-library(raster)
-library(rgdal)
-config <- prepare_test("raster_mask_raster")
-raster_s <- raster("data_input/raster_s.tif")
-raster_m <- raster("data_input/raster_m.tif")
-raster_l <- raster("data_input/raster_l.tif")
-mask_ssp <- readOGR("data_input/crop_s.shp", "crop_s")
-mask_msp <- readOGR("data_input/crop_m.shp", "crop_m")
-mask_lsp <- readOGR("data_input/crop_l.shp", "crop_l")
-test_performance_grid(config)
-rm(raster_s)
-rm(raster_m)
-rm(raster_l)
-rm(mask_ssp)
-rm(mask_msp)
-rm(mask_lsp)
+# raster_mask_raster <- function(raster, mask) {
+#   raster_name <- deparse(substitute(raster))
+#   mask_name <- deparse(substitute(mask))
+#   filename <- paste0("data_output/raster_mask_raster_", raster_name, "_", mask_name, ".tif")
+#   raster <- crop(raster, mask)
+#   crs(mask) <- crs(raster)
+#   raster_mask_raster <- mask(raster, mask)
+#   writeRaster(raster_mask_raster, filename, overwrite = TRUE)
+# }
+# library(raster)
+# library(rgdal)
+# config <- prepare_test("raster_mask_raster")
+# raster_s <- raster("data_input/raster_s.tif")
+# raster_m <- raster("data_input/raster_m.tif")
+# raster_l <- raster("data_input/raster_l.tif")
+# mask_ssp <- readOGR("data_input/crop_s.shp", "crop_s")
+# mask_msp <- readOGR("data_input/crop_m.shp", "crop_m")
+# mask_lsp <- readOGR("data_input/crop_l.shp", "crop_l")
+# test_performance_grid(config)
+# rm(raster_s)
+# rm(raster_m)
+# rm(raster_l)
+# rm(mask_ssp)
+# rm(mask_msp)
+# rm(mask_lsp)
 
 
 # raster_mask_raster_fasterize <- function(raster, mask) {
@@ -525,3 +529,107 @@ rm(mask_lsp)
 # rm(mask_ssf)
 # rm(mask_msf)
 # rm(mask_lsf)
+
+
+#############################################################################################
+#                                                                                           #
+#   Rasterdaten auf Basis von Polygondaten extrahieren                                      #
+#                                                                                           #
+#############################################################################################
+
+# raster_extract_polygon_velox <- function(ras, poly) {
+#   ras_vx <- velox(ras)
+#   ext <- ras_vx$extract(poly)
+#   data_poly <- data.frame()
+#   for (i in 1:length(ext)) {
+#     tab <- table(ext[[i]])
+#     unique_values_one_poly <- attr(tab, "names")
+#     counts_one_poly <- as.vector(tab)
+#     nrows <- nrow(tab)
+#     for (u in 1:nrows) {
+#       value_string <- toString(unique_values_one_poly[[u]])
+#       count <- counts_one_poly[[u]]
+#       data_poly[i, value_string] <- count
+#     }
+#   }
+#   poly@data <- cbind(poly@data, data_poly)
+#   writeOGR(poly, "./data_output", "raster_extract_polygon_velox", driver = "ESRI Shapefile", overwrite_layer = TRUE)
+# }
+# library(sf)
+# library(rgdal)
+# library(raster)
+# library(fasterize)
+# config <- prepare_test("raster_extract_polygon_velox")
+# sprengel <- readOGR("data_input/poly_2_s.shp", "poly_2_s")
+# res = 10
+# landuse <- st_read("data_input/REALNUT200708OGD/REALNUT200708OGDPolygon.shp")
+# landuse <- st_transform(landuse, 31256)
+# landuse_raster <- raster(landuse, res = res, val = 1)
+# landuse_raster <- fasterize(sf = landuse, raster = landuse_raster, field = "NUTZUNG_CO")
+# test_performance_grid(config)
+# rm(sprengel)
+# rm(landuse)
+# rm(landuse_raster)
+
+
+
+# raster_extract_polygon_raster <- function(ras, poly) {
+#   ext <- extract(ras, poly)
+#   data_poly <- data.frame()
+#   for (i in 1:length(ext)) {
+#     tab <- table(ext[[i]])
+#     unique_values_one_poly <- attr(tab, "names")
+#     counts_one_poly <- as.vector(tab)
+#     nrows <- nrow(tab)
+#     for (u in 1:nrows) {
+#       value_string <- toString(unique_values_one_poly[[u]])
+#       count <- counts_one_poly[[u]]
+#       data_poly[i, value_string] <- count
+#     }
+#   }
+#   poly@data <- cbind(poly@data, data_poly)
+   # if (WRITE_OUTPUT) {
+   #   writeOGR(poly, "./data_output", "raster_extract_polygon_raster", driver = "ESRI Shapefile", overwrite_layer = TRUE)
+   #   }
+# library(sf)
+# library(rgdal)
+# library(raster)
+# library(fasterize)
+# config <- prepare_test("raster_extract_polygon_raster")
+# sprengel <- readOGR("data_input/poly_2_s.shp", "poly_2_s")
+# res = 10
+# landuse <- st_read("data_input/REALNUT200708OGD/REALNUT200708OGDPolygon.shp")
+# landuse <- st_transform(landuse, 31256)
+# landuse_raster <- raster(landuse, res = res, val = 1)
+# landuse_raster <- fasterize(sf = landuse, raster = landuse_raster, field = "NUTZUNG_CO")
+# test_performance_grid(config)
+# rm(sprengel)
+# rm(landuse)
+# rm(landuse_raster)
+
+
+#############################################################################################
+#                                                                                           #
+#   Vektordaten verschneiden: Überschneidung (Intersect)                                    #
+#                                                                                           #
+#############################################################################################
+
+# config <- prepare_test("vector_intersect")
+# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
+# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
+# load("data_input/poly_2_ssf.RData")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
+# config <- prepare_test("vector_intersect_raster")
+# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("s"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
