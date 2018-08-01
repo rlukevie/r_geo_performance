@@ -1,27 +1,26 @@
-#################
-# INTERSECTION  #
-#################
+######################
+# 3V06: INTERSECTION #
+######################
 
-# sp --> NO
-# sf --> YES, with attributes, fast (11 sec)
-# rgeos --> YES, without attributes
-# maptools --> NO
-# geojsonio --> NO
-# rmapshaper --> NO
+# sp              --> NO
+# sf              --> YES, with attributes, fast (11 sec)
+# rgeos           --> YES, without attributes
+# maptools        --> NO
+# geojsonio       --> NO
+# rmapshaper      --> NO
 
-# raster --> YES, with attributes, slow (670 sec), needs a lot of memory
-# spatial.tools --> NO
-# gdalUtils --> NO
-# landscapetools --> NO
-# velox --> NO
+# raster          --> YES, with attributes, slow (670 sec), needs a lot of memory
+# spatial.tools   --> NO
+# gdalUtils       --> NO
+# landscapetools  --> NO
+# velox           --> NO
 
-# rgdal --> NO
-# RQGIS --> YES, fast (11 sec) but with some errors
+# rgdal           --> NO
+# RQGIS           --> YES, fast (11 sec) but with some errors
 
-# fasterize --> NO
-
-
+# fasterize       --> NO
 # ----------------------------------
+
 
 
 # sf

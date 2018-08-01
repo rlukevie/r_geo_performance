@@ -34,7 +34,7 @@ read_rdata <- function(layertype, sizes = "all", geomtypes = "all") {
         layers <- c(layers, paste0(geomtype, "_l"))
       }
     }
-
+    
   } else if (sizes[1] == "all" & layertype == "sp") {
     if (geomtypes[1] == "all") {
       layers <- c("point_s", "line_s", "poly_s",
@@ -49,7 +49,7 @@ read_rdata <- function(layertype, sizes = "all", geomtypes = "all") {
         }
       }
     }
-
+    
   } else {
     layers <- c()
     for (size in sizes) {
@@ -64,7 +64,7 @@ read_rdata <- function(layertype, sizes = "all", geomtypes = "all") {
           }
         }
       }
-
+      
     }
   }
   print(layers)
@@ -418,6 +418,7 @@ source("test_functions.R")
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
 # config <- prepare_test("rasterize_velox_l")
 # read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line"))
 # library(raster)
@@ -425,6 +426,36 @@ source("test_functions.R")
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 # 
 
+config <- prepare_test("rasterize_gdalutils")
+test_performance_grid(config)
+
+
+
+# rasterize_rqgis_grass7 <- function(vector_sp, resolution, field) {
+#   set_env(root = "C:/OSGeo4W64",
+#           new = TRUE)
+#   params <- get_args_man(alg = "grass7:v.to.rast.attribute")
+#   params$input <- vector_sp
+#   params$attribute_column = field
+#   params$GRASS_REGION_CELLSIZE_PARAMETER = resolution
+#   params$output <- "data_output/rasterize_rqgis_grass7.tif"
+#   poly_s_raster <- run_qgis(alg = "grass7:v.to.rast.attribute",
+#                             params = params,
+#                             load_output = TRUE)
+# }
+# config <- prepare_test("rasterize_rqgis_grass7_s_m")
+# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = c("poly", "line", "point"))
+# library(RQGIS)
+# library(raster)
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# 
+# config <- prepare_test("rasterize_rqgis_grass7_l")
+# read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line", "point"))
+# library(RQGIS)
+# library(raster)
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("l"))
 
 #############################################################################################
 #                                                                                           #
@@ -588,9 +619,9 @@ source("test_functions.R")
 #     }
 #   }
 #   poly@data <- cbind(poly@data, data_poly)
-   # if (WRITE_OUTPUT) {
-   #   writeOGR(poly, "./data_output", "raster_extract_polygon_raster", driver = "ESRI Shapefile", overwrite_layer = TRUE)
-   #   }
+# if (WRITE_OUTPUT) {
+#   writeOGR(poly, "./data_output", "raster_extract_polygon_raster", driver = "ESRI Shapefile", overwrite_layer = TRUE)
+#   }
 # library(sf)
 # library(rgdal)
 # library(raster)

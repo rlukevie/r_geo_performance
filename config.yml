@@ -830,6 +830,71 @@ rasterize_velox_l:
       field: "SUBNET_ID"
       small: TRUE
 
+rasterize_gdalutils:
+  testtype: "Vektordaten rasterisieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  poly:
+    package: "gdalUtils"
+    function: "gdal_rasterize"
+    param:
+      src_datasource: !expr c("data_input/poly_s.shp", "data_input/poly_m.shp", "data_input/poly_l.shp", "data_input/line_s.shp", "data_input/line_m.shp", "data_input/line_l.shp", "data_input/point_s.shp", "data_input/point_m.shp", "data_input/point_l.shp")
+      dst_filename: "data_output/rasterize_gdalutils.tiff"
+      a: "F_KLASSE"
+      ot: "Byte"
+      tr: !expr c("5 5", "10 10", "100, 100")
+      output_Raster: TRUE
+
+rasterize_rqgis_grass7_s_m:
+  testtype: "Vektordaten rasterisieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  poly:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!poly_ssp", "!poly_msp")
+      resolution: !expr c(5, 10, 100)
+      field: "F_KLASSE"
+  point:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!point_ssp", "!point_msp")
+      resolution: !expr c(1)
+      field: "code"
+  line:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!line_ssp", "!line_msp")
+      resolution: !expr c(5, 10, 100)
+
+rasterize_rqgis_grass7_l:
+  testtype: "Vektordaten rasterisieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  poly:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!poly_lsp")
+      resolution: !expr c(5, 10, 100)
+      field: "F_KLASSE"
+  point:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!point_lsp")
+      resolution: !expr c(1)
+      field: "code"
+  line:
+    package: "RQGIS"
+    function: "rasterize_rqgis_grass7"
+    param:
+      vector_sp: !expr c("!line_lsp")
+      resolution: !expr c(5, 10, 100)
+
 raster_distance_raster:
   testtype: "Euklidische Entfernung in Rasterdaten berechnen"
   times: 1
