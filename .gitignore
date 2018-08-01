@@ -1,0 +1,11 @@
+packrat/lib*/
+.Rproj.user
+.Rhistory
+.RData
+.Rprofile
+etc_local/
+data_input/
+data_input_prep/
+data_output/
+test_results/
+test_functions.Rmd

@@ -1,0 +1,58 @@
+---
+title: "start_here"
+author: "Roland Lukesch"
+date: "9 Mai 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Install Geoprocessing Utilities
+
+## QGIS (including GDAL)
+
+# Install R packages
+
+In case of an "unable to move temporary installation" warning follow the instructions on [Stack Overflow](https://stackoverflow.com/questions/46590002/warning-in-install-packages-unable-to-move-temporary-installation).
+
+(basically it says the following: "To fix, try: trace(utils:::unpackPkgZip, edit=TRUE). Then go to Line 140 in the code and change Sys.sleep(0.5) to Sys.sleep(2.5)")
+
+```{r}
+install.packages(c("sp", "sf", "raster", "spatial.tools", "gdalUtils",
+                   "geojson", "geoaxe", "lawn", "wkb", "shapefiles",
+                   "rpostgis", "postGIStools", "RQGIS", "geofilter",
+                   "geojsonio", "landscapetools", "velox", "fasterize",
+                   "rmapshaper"))
+```
+
+# Prepare PostGIS
+
+## Install
+Follow the instructions on the [PostGIS Website](https://postgis.net/install/).
+
+Create a new PostGIS database called *rperf*.
+
+## Performance Tuning
+```{}
+ALTER SYSTEM SET work_mem = '256MB';
+-- this will force, non-startup configs to take effect for new connections
+SELECT pg_reload_conf();
+-- show current setting value
+-- use SHOW ALL to see all settings
+SHOW work_mem;
+```
+
+## Create Connection File
+Create local directory *etc_local*.
+
+Create *postgis_account.csv* in this directory with the following content:
+
+```{}
+user,pw
+[your_postgres_username],[your_postgres_password]
+
+```
+
+replacing the placeholders with your login data. 

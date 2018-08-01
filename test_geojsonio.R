@@ -1,0 +1,10 @@
+library(geojsonio)
+library(sf)
+library(sp)
+library(rgdal)
+
+poly_s_filepath <- file.path("data_input", "BEZIRKSGRENZEOGDPolygon.geojson")
+poly_s <- geojson_read(poly_s_filepath, what = "sp")
+poly_s_sf <- st_read(poly_s_filepath)
+poly_s_sp <- readOGR("data_input", "BEZIRKSGRENZEOGDPolygon")
+plot(poly_s)
