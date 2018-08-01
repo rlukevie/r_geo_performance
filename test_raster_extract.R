@@ -37,13 +37,14 @@ start_time <- Sys.time()
 sprengel <- readOGR("data_input/poly_2_s.shp", "poly_2_s")
 
 res = 10
-landuse_2016 <- st_read("data_input/REALNUT2016GOGD/REALNUT2016GOGDPolygon.shp")
-landuse_2016 <- st_transform(landuse_2016, 31256)
-landuse_2016_raster <- raster(landuse_2016, res = res, val = 1)
-landuse_2016_raster <- fasterize(sf = landuse_2016, raster = landuse_2016_raster, field = "NUTZUNG_CO")
+# landuse <- st_read("data_input/REALNUT2016GOGD/REALNUT2016GOGDPolygon.shp")
+landuse <- st_read("data_input/REALNUT200708OGD/REALNUT200708OGDPolygon.shp")
+landuse <- st_transform(landuse, 31256)
+landuse_raster <- raster(landuse, res = res, val = 1)
+landuse_raster <- fasterize(sf = landuse, raster = landuse_raster, field = "NUTZUNG_CO")
 
-landuse_2016_raster_vx <- velox(landuse_2016_raster)
-ext <- landuse_2016_raster_vx$extract(sprengel)
+landuse_raster_vx <- velox(landuse_raster)
+ext <- landuse_raster_vx$extract(sprengel)
 data_sprengel <- data.frame()
 
 for (i in 1:length(ext)) {
@@ -59,7 +60,7 @@ for (i in 1:length(ext)) {
 }
 
 sprengel@data <- cbind(sprengel@data, data_sprengel)
-writeOGR(sprengel, "./data_ouput", "sprengel_nutzung_count_2016", driver = "ESRI Shapefile", overwrite_layer = TRUE)
+writeOGR(sprengel, "./data_ouput", "sprengel_nutzung_count_200708", driver = "ESRI Shapefile", overwrite_layer = TRUE)
 
 print(paste0("Duration: ", Sys.time() - start_time))
 

@@ -694,7 +694,6 @@ spatial_joinsf:
       x: !expr c("!point_ssf", "!point_msf", "!point_lsf", "!line_ssf", "!line_msf")
       y: !expr c("!poly_ssf", "!poly_msf")
 
-
 spatial_joinsp:
   testtype: "Spatial Join"
   times: 1
@@ -705,7 +704,6 @@ spatial_joinsp:
     param:
       x: !expr c("!point_ssp", "!point_msp", "!point_lsp", "!line_ssp", "!line_msp")
       y: !expr c("!poly_ssp", "!poly_msp")
-
 
 spatial_join_points_to_poly_sp:
   testtype: "Spatial Join"
