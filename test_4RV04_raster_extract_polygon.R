@@ -1,30 +1,29 @@
-##################
-# RASTER EXTRACT #
-##################
+#################################
+# 4RV04: RASTER EXTRACT POLYGON #
+#################################
 
-# sp --> NEIN
-# sf --> NEIN
-# rgeos --> NEIN
-# maptools --> NEIN
-# geojsonio --> NEIN
-# rmapshaper --> NEIN
+# sp              --> 
+# sf              --> NO
+# rgeos           --> NO
+# maptools        --> NO
+# geojsonio       --> NO
+# rmapshaper      --> NO
 
-# raster --> JA, langsam (5 Minuten)
-# spatial.tools -->  NEIN
-# gdalUtils --> NEIN
-# landscapetools --> NEIN
-# velox --> JA, flott (13 Sek)
+# raster          --> YES, slow (5 min)
+# spatial.tools   --> NO
+# gdalUtils       --> NO
+# landscapetools  --> NO
+# velox           --> YES, fast (13 sec sec)
 
-# rgdal --> NEIN
-# RQGIS --> NEIN (QGIS bietet keine Extract-Funktion)
+# rgdal           --> NO
+# RQGIS           --> NO (QGIS has no extract function for polygons)
 
-# fasterize --> NEIN
-
-
+# fasterize       --> NO
 # ----------------------------------
 
+
 # raster
-# Anwendungsbeispiel Extraktion Realnutzungskartierung
+# Example: extract landuse in Vienna
 
 library(sf)
 library(rgdal)
@@ -67,7 +66,7 @@ print(paste0("Duration: ", difftime(Sys.time(), start_time, units = "secs"), " s
 Sys.time()- start_time
 
 # velox
-# Anwendungsbeispiel Extraktion Realnutzungskartierung
+# Example: extract landuse in Vienna
 
 library(sf)
 library(rgdal)
