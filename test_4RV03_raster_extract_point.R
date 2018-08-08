@@ -32,7 +32,7 @@ grid <- readGDAL("data_input/raster_landuse200708.tif")
 crs(grid) <- crs(points)
 
 start_time <- Sys.time()
-extract <- over(y = grid, x = points)
+extract <- over(x = points, y = grid)
 
 points@data <- cbind(points@data, extract)
 print(paste0("Duration: ", difftime(Sys.time(), start_time, units = "secs"), " sec"))
