@@ -426,8 +426,8 @@ source("test_functions.R")
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 # 
 
-config <- prepare_test("rasterize_gdalutils")
-test_performance_grid(config)
+# config <- prepare_test("rasterize_gdalutils")
+# test_performance_grid(config)
 
 
 
@@ -562,6 +562,35 @@ test_performance_grid(config)
 # rm(mask_lsf)
 
 
+
+
+#############################################################################################
+#                                                                                           #
+#   Vektordaten verschneiden: Überschneidung (Intersect)                                    #
+#                                                                                           #
+#############################################################################################
+
+# config <- prepare_test("vector_intersect")
+# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
+# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
+# load("data_input/poly_2_ssf.RData")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
+# config <- prepare_test("vector_intersect_raster")
+# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("s"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
+
+
 #############################################################################################
 #                                                                                           #
 #   Rasterdaten auf Basis von Polygondaten extrahieren                                      #
@@ -639,28 +668,17 @@ test_performance_grid(config)
 # rm(landuse_raster)
 
 
+
 #############################################################################################
 #                                                                                           #
-#   Vektordaten verschneiden: Überschneidung (Intersect)                                    #
+#   4RV03: Rasterdaten auf Basis von Punktdaten extrahieren                                 #
 #                                                                                           #
 #############################################################################################
-
-# config <- prepare_test("vector_intersect")
-# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
-# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
-# load("data_input/poly_2_ssf.RData")
-# load("data_input/poly_2_ssp.RData")
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-
-# config <- prepare_test("vector_intersect_raster")
-# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
-# load("data_input/poly_2_ssp.RData")
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-
+config <- prepare_test("4RV04_raster_extract_point")
+library(rgdal)
+grid <- readGDAL("data_input/raster_landuse200708.tif")
+raster <- raster("data_input/raster_landuse200708.tif")
+load("data_input/point_lsp.RData")
+test_performance_grid(config)
+rm(grid)
+rm(point_lsp)

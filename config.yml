@@ -988,3 +988,23 @@ vector_intersect_raster:
     param:
       x: !expr c("!poly_ssp")
       y: !expr c("!poly_2_ssp")
+
+
+
+4RV04_raster_extract_point:
+  testtype: "Rasterdaten auf Basis von Punktdaten extrahieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  sp:
+    package: "sp"
+    function: "over"
+    param:
+      x: !expr c("!point_lsp")
+      y: !expr c("!grid")
+  raster:
+    package: "raster"
+    function: "extract"
+    param:
+      x: !expr c("!raster")
+      y: !expr c("!point_lsp")
+
