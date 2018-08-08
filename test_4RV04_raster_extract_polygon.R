@@ -101,8 +101,9 @@ for (i in 1:length(ext)) {
   }
 }
 
+
 sprengel@data <- cbind(sprengel@data, data_sprengel)
-writeOGR(sprengel, "./data_output", "sprengel_nutzung_count_200708", driver = "ESRI Shapefile", overwrite_layer = TRUE)
+writeOGR(sprengel, "./data_output", "sprengel_nutzung_count_200708_velox", driver = "ESRI Shapefile", overwrite_layer = TRUE)
 
 print(paste0("Duration: ", difftime(Sys.time(), start_time, units = "secs"), " sec"))
       
