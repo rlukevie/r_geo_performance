@@ -47,7 +47,7 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
     # }
     # durations[i] <- (Sys.time() - start_time) #* 1000 # in milliseconds
     
-    if (parstr != "NULL = ''") {
+    if (parstr != "FALSE = ''") {
       eval(parse(text = paste0("time <- system.time(", fun_string, "(", parstr, ")", ")")))
     } else {
       eval(parse(text = paste0("time <- system.time(", fun_string, ")")))
@@ -170,7 +170,6 @@ test_performance_grid <- function(parameter_grid) {
   for (s in sections) {
     gridlist[[s]] <- expand.grid(parameter_grid[[s]][["param"]], stringsAsFactors = FALSE)
   }
-  # print(gridlist)
   # loop through these combinations
   for (section in sections) {
     for (param_combination in 1:nrow(gridlist[[section]])) {
@@ -183,7 +182,7 @@ test_performance_grid <- function(parameter_grid) {
       
       # construct parameter string
       if (length(gridlist[[section]][param_combination, ]) == 1) {
-        names_list <- list(colnames(gridlist[[f]]))
+        names_list <- list(colnames(gridlist[[section]]))
       } else {
         names_list <- names(gridlist[[section]][param_combination, ])
       }
@@ -207,7 +206,7 @@ test_performance_grid <- function(parameter_grid) {
       # print(parstr)
       # fun_string = paste0(f, "(", parstr, ")")
       fun_string = f
-      # print(fun_string)
+      print(paste0("fun_string: ", fun_string))
       # start performance test and print some results on console
       print(paste0("+++ ", f, "{", package, "}"))
       print(paste0("    Test iterations:     ", times))

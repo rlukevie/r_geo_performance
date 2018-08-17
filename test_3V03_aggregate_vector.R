@@ -21,6 +21,8 @@
 # fasterize       --> NO
 # ----------------------------------
 
+# very good performance of standard libraries --> no performance measurement is conducted
+
 
 # gdalUtils
 library(gdalUtils)

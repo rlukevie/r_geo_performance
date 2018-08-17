@@ -1,18 +1,18 @@
 default:
   testtype: ""
 
-read_vector_serialized_sp:
-  testtype: "Vektordaten lesen: seralisiert"
+1V01_read_vector_serialized_sp:
+  testtype: "[1V01] Vektordaten lesen: seralisiert"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   load:
     package: "base"
     function: "load"
     param:
-      file: !expr c("data_input/point_ssp.RData", "data_input/point_msp.RData", "data_input/point_lsp.RData", "data_input/line_ssp.RData", "data_input/line_msp.RData", "data_input/line_lsp.RData", "data_input/poly_ssp.RData", "data_input/poly_msp.RData")
+      file: !expr c("data_input/point_ssp.RData", "data_input/point_msp.RData", "data_input/point_lsp.RData", "data_input/line_ssp.RData", "data_input/line_msp.RData", "data_input/line_lsp.RData", "data_input/poly_ssp.RData", "data_input/poly_msp.RData", "data_input/poly_lsp.RData")
       
-read_vector_serialized_sf:
-  testtype: "Vektordaten lesen: seralisiert"
+1V01_read_vector_serialized_sf:
+  testtype: "[1V01] Vektordaten lesen: seralisiert"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   load:
@@ -21,16 +21,16 @@ read_vector_serialized_sf:
     param:
       file: !expr c("data_input/point_ssf.RData", "data_input/point_msf.RData", "data_input/point_lsf.RData", "data_input/line_ssf.RData", "data_input/line_msf.RData", "data_input/line_lsf.RData", "data_input/poly_ssf.RData", "data_input/poly_msf.RData", "data_input/poly_lsf.RData")
       
-read_vector_shape:
-  testtype: "Vektordaten lesen: Shapefile"
-  times: 5
+1V01_read_vector_shape:
+  testtype: "[1V01] Vektordaten lesen: Shapefile"
+  times: 1
   path: !expr file.path("test_results", "test_results.csv")
 
   st_read:
     package: "sf"
     function: "st_read"
     param:
-      dsn: !expr c("data_input/point_s.shp", "data_input/point_m.shp","data_input/point_l.shp", "data_input/line_s.shp", "data_input/line_m.shp","data_input/line_l.shp", "data_input/line_s.shp", "data_input/line_m.shp","data_input/line_l.shp")
+      dsn: !expr c("data_input/point_s.shp", "data_input/point_m.shp","data_input/point_l.shp", "data_input/line_s.shp", "data_input/line_m.shp","data_input/line_l.shp", "data_input/poly_s.shp", "data_input/poly_m.shp","data_input/poly_l.shp")
       quiet: TRUE
   readOGR_point_s:
     package: "rgdal"
@@ -96,16 +96,15 @@ read_vector_shape:
       layer: "poly_l"
       verbose: FALSE
 
-read_vector_geojson:
-  testtype: "Vektordaten lesen: GeoJSON"
-  times: 5
+1V01_read_vector_geojson:
+  testtype: "[1V01] Vektordaten lesen: GeoJSON"
+  times: 1
   path: !expr file.path("test_results", "test_results.csv")
-
   st_read:
     package: "sf"
     function: "st_read"
     param:
-      dsn: !expr c("data_input/point_s.geojson", "data_input/point_m.geojson","data_input/point_l.geojson", "data_input/line_s.geojson", "data_input/line_m.geojson","data_input/line_l.geojson", "data_input/line_s.geojson", "data_input/line_m.geojson","data_input/line_l.geojson")
+      dsn: !expr c("data_input/point_s.geojson", "data_input/point_m.geojson","data_input/point_l.geojson", "data_input/line_s.geojson", "data_input/line_m.geojson","data_input/line_l.geojson", "data_input/poly_s.geojson", "data_input/poly_m.geojson","data_input/poly_l.geojson")
       quiet: TRUE
   readOGR_point_s:
     package: "rgdal"
@@ -171,16 +170,15 @@ read_vector_geojson:
       layer: "poly_l"
       verbose: FALSE
 
-read_vector_kml:
-  testtype: "Vektordaten lesen: KML"
-  times: 5
+1V01_read_vector_kml:
+  testtype: "[1V01] Vektordaten lesen: KML"
+  times: 1
   path: !expr file.path("test_results", "test_results.csv")
-
   st_read:
     package: "sf"
     function: "st_read"
     param:
-      dsn: !expr c("data_input/point_s.kml", "data_input/point_m.kml","data_input/point_l.kml", "data_input/line_s.kml", "data_input/line_m.kml","data_input/line_l.kml", "data_input/line_s.kml", "data_input/line_m.kml","data_input/line_l.kml")
+      dsn: !expr c("data_input/point_s.kml", "data_input/point_m.kml","data_input/point_l.kml", "data_input/line_s.kml", "data_input/line_m.kml","data_input/line_l.kml", "data_input/poly_s.kml", "data_input/poly_m.kml","data_input/poly_l.kml")
       quiet: TRUE
   readOGR_point_s:
     package: "rgdal"
@@ -246,8 +244,8 @@ read_vector_kml:
       layer: "poly_l"
       verbose: FALSE
 
-write_vector_shapesp_s_m:
-  testtype: "Vektordaten schreiben: Shapefile"
+1V02_write_vector_shapesp_s_m:
+  testtype: "[1V02] Vektordaten schreiben: Shapefile"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   writeOGR_point_s:
@@ -305,8 +303,8 @@ write_vector_shapesp_s_m:
       driver: "ESRI Shapefile"
       overwrite_layer: TRUE
 
-write_vector_shapesp_l:
-  testtype: "Vektordaten schreiben: Shapefile"
+1V02_write_vector_shapesp_l:
+  testtype: "[1V02] Vektordaten schreiben: Shapefile"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   writeOGR_point_l:
@@ -328,8 +326,8 @@ write_vector_shapesp_l:
       driver: "ESRI Shapefile"
       overwrite_layer: TRUE
 
-write_vector_shapesf_s_m:
-  testtype: "Vektordaten schreiben: Shapefile"
+1V02_write_vector_shapesf_s_m:
+  testtype: "[1V02] Vektordaten schreiben: Shapefile"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   st_write_point_s:
@@ -393,8 +391,8 @@ write_vector_shapesf_s_m:
       quiet: TRUE
       layer_options: "ENCODING=UTF-8"
 
-write_vector_shapesf_l:
-  testtype: "Vektordaten schreiben: Shapefile"
+1V02_write_vector_shapesf_l:
+  testtype: "[1V02] Vektordaten schreiben: Shapefile"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   st_write_point_l:
@@ -425,9 +423,188 @@ write_vector_shapesf_l:
       quiet: TRUE
       layer_options: "ENCODING=UTF-8"
 
-read_raster_geotiff:
-  testtype: "Rasterdaten lesen: GeoTIFF"
-  times: 5
+1V02_write_vector_geojsonsf_s_m:
+  testtype: "[1V02] Vektordaten schreiben: GeoJSON"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  st_write_point_s:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!point_ssf"
+      dsn: "data_output/point_s.geojson"
+      layer: "point_s"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_point_m:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!point_msf"
+      dsn: "data_output/point_m.geojson"
+      layer: "point_m"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_line_s:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!line_ssf"
+      dsn: "data_output/line_s.geojson"
+      layer: "line_s"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_line_m:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!line_msf"
+      dsn: "data_output/line_m.geojson"
+      layer: "line_m"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_poly_s:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!poly_ssf"
+      dsn: "data_output/poly_s.geojson"
+      layer: "poly_s"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_poly_m:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!poly_msf"
+      dsn: "data_output/poly_m.geojson"
+      layer: "poly_m"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+
+1V02_write_vector_geojsonsf_l:
+  testtype: "[1V02] Vektordaten schreiben: GeoJSON"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  st_write_point_l:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!point_lsf"
+      dsn: "data_output/point_l.geojson"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_line_l:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!line_lsf"
+      dsn: "data_output/line_l.geojson"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+  st_write_poly_l:
+    package: "sf"
+    function: "st_write"
+    param:
+      obj: "!poly_lsf"
+      dsn: "data_output/poly_l.geojson"
+      delete_dsn: TRUE
+      quiet: TRUE
+      layer_options: "ENCODING=UTF-8"
+
+1V02_write_vector_geojsonsp_s_m:
+  testtype: "[1V02] Vektordaten schreiben: GeoJSON"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  writeOGR_point_s:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!point_ssp"
+      dsn: "./data_output/point_ssp.geojson"
+      layer: "point_ssp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_point_m:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!point_msp"
+      dsn: "./data_output/point_msp.geojson"
+      layer: "point_msp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_line_s:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!line_ssp"
+      dsn: "./data_output/line_ssp.geojson"
+      layer: "line_ssp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_line_m:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!line_msp"
+      dsn: "./data_output/line_msp.geojson"
+      layer: "line_msp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_poly_s:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!poly_ssp"
+      dsn: "./data_output/poly_ssp.geojson"
+      layer: "poly_ssp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_poly_m:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!poly_msp"
+      dsn: "./data_output/poly_msp.geojson"
+      layer: "poly_msp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+
+1V02_write_vector_geojsonsp_l:
+  testtype: "[1V02] Vektordaten schreiben: GeoJSON"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  writeOGR_point_l:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!point_lsp"
+      dsn: "./data_output/point_lsp.geojson"
+      layer: "point_lsp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+  writeOGR_line_l:
+    package: "rgdal"
+    function: "writeOGR"
+    param:
+      obj: "!line_lsp"
+      dsn: "./data_output/line_lsp.geojson"
+      layer: "line_lsp"
+      driver: "GeoJSON"
+      overwrite_layer: TRUE
+
+1R01_read_raster_geotiff:
+  testtype: "[1R01] Rasterdaten lesen: GeoTIFF"
+  times: 1
   path: !expr file.path("test_results", "test_results_read_raster.csv")
   raster:
     package: "raster"
@@ -435,10 +612,16 @@ read_raster_geotiff:
     param: 
       x: !expr c("data_input/raster_s.tif", "data_input/raster_m.tif", "data_input/raster_l.tif")
       verbose: FALSE
+  rgdal:
+    package: "rgdal"
+    function: "readGDAL"
+    param: 
+      fname: !expr c("data_input/raster_s.tif", "data_input/raster_m.tif", "data_input/raster_l.tif")
+      silent: TRUE
 
-read_raster_asc:
-  testtype: "Rasterdaten lesen: asc"
-  times: 5
+1R01_read_raster_asc:
+  testtype: "[1R01] Rasterdaten lesen: asc"
+  times: 1
   path: !expr file.path("test_results", "test_results_read_raster.csv")
   raster:
     package: "raster"
@@ -446,9 +629,27 @@ read_raster_asc:
     param: 
       x: !expr c("data_input/raster_s.asc", "data_input/raster_m.asc", "data_input/raster_l.asc")
       verbose: FALSE
+  rgdal:
+    package: "rgdal"
+    function: "readGDAL"
+    param: 
+      fname: !expr c("data_input/raster_s.asc", "data_input/raster_m.asc", "data_input/raster_l.asc")
+      silent: TRUE
+  sp:
+    package: "sp"
+    function: "read.asciigrid"
+    param: 
+      fname: !expr c("data_input/raster_s.asc", "data_input/raster_m.asc", "data_input/raster_l.asc")
+      as.image: FALSE
+  maptools:
+    package: "maptools"
+    function: "readAsciiGrid"
+    param: 
+      fname: !expr c("data_input/raster_s.asc", "data_input/raster_m.asc", "data_input/raster_l.asc")
+      as.image: FALSE
 
-write_raster_geotiff:
-  testtype: "Rasterdaten schreiben: GeoTIFF"
+1R02_write_raster_geotiff:
+  testtype: "[1R02] Rasterdaten schreiben: GeoTIFF"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   raster_s:
@@ -472,9 +673,27 @@ write_raster_geotiff:
       x: "!raster_l"
       filename: "data_output/raster_l.tif"
       overwrite: TRUE
+  rgdal_s:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_s"
+      fname: "data_output/raster_s.tif"
+  rgdal_m:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_m"
+      fname: "data_output/raster_m.tif"
+  rgdal_l:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_l"
+      fname: "data_output/raster_l.tif"
       
-write_raster_asc:
-  testtype: "Rasterdaten schreiben: asc"
+1R02_write_raster_asc:
+  testtype: "[1R02] Rasterdaten schreiben: asc"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   raster_s:
@@ -498,9 +717,27 @@ write_raster_asc:
       x: "!raster_l"
       filename: "data_output/raster_l.asc"
       overwrite: TRUE
+  rgdal_s:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_s"
+      fname: "data_output/raster_s.asc"
+  rgdal_m:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_m"
+      fname: "data_output/raster_m.asc"
+  rgdal_l:
+    package: "rgdal"
+    function: "writeGDAL"
+    param:
+      dataset: "!raster_l"
+      fname: "data_output/raster_l.asc"
       
-modify_vectorsp_s_m:
-  testtype: "Vektordaten modifizieren"
+2V01_modify_vectorsp_s_m:
+  testtype: "[2V01] Vektorattribute modifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   divide_point_s:
@@ -534,8 +771,8 @@ modify_vectorsp_s_m:
     param:
       n: ""
 
-modify_vectorsp_l:
-  testtype: "Vektordaten modifizieren"
+2V01_modify_vectorsp_l:
+  testtype: "[2V01] Vektorattribute modifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   divide_point_l:
@@ -549,8 +786,8 @@ modify_vectorsp_l:
     param:
       n: ""
 
-modify_vectorsf_s_m:
-  testtype: "Vektordaten modifizieren"
+2V01_modify_vectorsf_s_m:
+  testtype: "[2V01] Vektorattribute modifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   divide_point_s:
@@ -584,8 +821,8 @@ modify_vectorsf_s_m:
     param:
       n: ""
 
-modify_vectorsf_l:
-  testtype: "Vektordaten modifizieren"
+2V01_modify_vectorsf_l:
+  testtype: "[2V01] Vektorattribute modifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   divide_point_s:
@@ -599,48 +836,33 @@ modify_vectorsf_l:
     param:
       n: ""
 
-reclassify_raster_tif:
-  testtype: "Rasterdaten reklassifizieren"
+2R01_reclassify_raster:
+  testtype: "[2R01] Rasterdaten reklassifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
-  raster_s_tif:
+  raster_s_raster:
     package: "raster"
     function: "raster_s_rcl <- reclassify(raster_s, rcl)"
     param:
       n: ""
-  raster_m_tif:
+  raster_m_raster:
     package: "raster"
     function: "raster_m_tif_rcl <- reclassify(raster_m, rcl)"
     param:
       n: ""
-  raster_l_tif:
+  raster_l_raster:
     package: "raster"
     function: "raster_l_rcl <- reclassify(raster_l, rcl)"
     param:
       n: ""
+  raster_qgis:
+    package: "RQGIS"
+    function: "reclassify_raster_qgis_grass7"
+    param:
+      raster_name: !expr c("raster_s", "raster_m", "raster_l")
 
-reclassify_raster_asc:
-  testtype: "Rasterdaten reklassifizieren"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  raster_s_asc:
-    package: "raster"
-    function: "raster_s_rcl <- reclassify(raster_s, rcl)"
-    param:
-      n: ""
-  raster_m_asc:
-    package: "raster"
-    function: "raster_m_rcl <- reclassify(raster_m, rcl)"
-    param:
-      n: ""
-  raster_l_asc:
-    package: "raster"
-    function: "raster_l_rcl <- reclassify(raster_l, rcl)"
-    param:
-      n: ""
-
-reproject_vectorsp_s_m:
-  testtype: "Vektordaten projezieren und transformieren"
+3V01_reproject_vectorsp_s_m:
+  testtype: "[3V01] Vektordaten projezieren und transformieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -650,8 +872,8 @@ reproject_vectorsp_s_m:
       x: !expr c("!point_ssp", "!point_msp", "!line_ssp", "!line_msp", "!poly_ssp", "!poly_msp")
       CRSobj: "+init=epsg:4326"
 
-reproject_vectorsp_l:
-  testtype: "Vektordaten projezieren und transformieren"
+3V01_reproject_vectorsp_l:
+  testtype: "[3V01] Vektordaten projezieren und transformieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -661,8 +883,8 @@ reproject_vectorsp_l:
       x: !expr c("!point_lsp", "!line_lsp")
       CRSobj: "+init=epsg:4326"
 
-reproject_vectorsf_s_m:
-  testtype: "Vektordaten projezieren und transformieren"
+3V01_reproject_vectorsf_s_m:
+  testtype: "[3V01] Vektordaten projezieren und transformieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -672,8 +894,8 @@ reproject_vectorsf_s_m:
       x: !expr c("!point_ssf", "!point_msf", "!line_ssf", "!line_msf", "!poly_ssf", "!poly_msf")
       crs: 4326
 
-reproject_vectorsf_l:
-  testtype: "Vektordaten projezieren und transformieren"
+3V01_reproject_vectorsf_l:
+  testtype: "[3V01] Vektordaten projezieren und transformieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -683,30 +905,30 @@ reproject_vectorsf_l:
       x: !expr c("!point_lsf", "!line_lsf", "!poly_lsf")
       crs: 4326
 
-spatial_joinsf:
-  testtype: "Spatial Join"
+3V02_spatial_joinsf:
+  testtype: "[3V02] Spatial Join: Polygone zu Punkten"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
     package: "sf"
     function: "st_join"
     param:
-      x: !expr c("!point_ssf", "!point_msf", "!point_lsf", "!line_ssf", "!line_msf")
-      y: !expr c("!poly_ssf", "!poly_msf")
+      x: !expr c("!point_ssf", "!point_msf", "!point_lsf")
+      y: !expr c("!poly_2_ssf")
 
-spatial_joinsp:
-  testtype: "Spatial Join"
+3V02_spatial_joinsp:
+  testtype: "[3V02] Spatial Join: Polygone zu Punkten"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
     package: "sp"
     function: "over"
     param:
-      x: !expr c("!point_ssp", "!point_msp", "!point_lsp", "!line_ssp", "!line_msp")
-      y: !expr c("!poly_ssp", "!poly_msp")
+      x: !expr c("!point_ssp", "!point_msp", "!point_lsp")
+      y: !expr c("!poly_2_ssp")
 
-spatial_join_points_to_poly_sp:
-  testtype: "Spatial Join"
+3V02_spatial_join_points_to_poly_sp:
+  testtype: "[3V02] Spatial Join"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -714,10 +936,10 @@ spatial_join_points_to_poly_sp:
     function: "join_points_to_poly_sp"
     param:
       point: "!point_lsp"
-      poly: !expr c("!poly_2_ssp", "!poly_msp")
+      poly: !expr c("!poly_2_ssp")
 
-spatial_join_points_to_poly_sf:
-  testtype: "Spatial Join"
+3V02_spatial_join_points_to_poly_sf:
+  testtype: "[3V02] Spatial Join"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -725,10 +947,114 @@ spatial_join_points_to_poly_sf:
     function: "join_points_to_poly_sf"
     param:
       point: "!point_lsf"
-      poly: !expr c("!poly_2_ssf", "!poly_msf")
+      poly: !expr c("!poly_2_ssf")
 
-rasterize_raster_s_m:
-  testtype: "Vektordaten rasterisieren"
+3V04_vector_intersect:
+  testtype: "[3V04] Vektordaten verschneiden: Überschneidung (Intersect)"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  rgeos:
+    package: "rgeos"
+    function: "gIntersection"
+    param:
+      spgeom1: !expr c("!poly_ssp", "!poly_msp")
+      spgeom2: !expr c("!poly_2_ssp")
+  sf:
+    package: "sf"
+    function: "st_intersection"
+    param:
+      x: !expr c("!poly_ssf", "!poly_msf")
+      y: !expr c("!poly_2_ssf")
+
+3V04_vector_intersect_raster:
+  testtype: "[3V04] Vektordaten verschneiden: Überschneidung (Intersect)"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  raster:
+    package: "raster"
+    function: "intersect"
+    param:
+      x: !expr c("!poly_ssp")
+      y: !expr c("!poly_2_ssp")
+
+3R01_raster_distance_raster:
+  testtype: "[3R01] Euklidische Entfernung in Rasterdaten berechnen"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "raster"
+    function: "raster_distance_raster"
+    param:
+      ras: !expr c("!raster_streets", "!raster_streets_s")
+      band: 1
+
+3R01_raster_distance_rqigs:
+  testtype: "[3R01] Euklidische Entfernung in Rasterdaten berechnen"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "RQGIS"
+    function: "raster_distance_rqigs"
+    param:
+      ras: !expr c("!raster_streets", "!raster_streets_s")
+      band: 1
+
+3R02_raster_local_raster:
+  testtype: "[3R02] Rasterdaten mit Map Algebra lokal modifizieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "raster"
+    function: "modify_raster_local_raster"
+    param:
+      ras: !expr c("!raster_l", "!raster_m", "!raster_s")
+
+3R02_raster_local_spatial_tools:
+  testtype: [3R02] "Rasterdaten mit Map Algebra lokal modifizieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "spatial.tools"
+    function: "modify_raster_local_spatial_tools"
+    param:
+      ras: !expr c("!raster_l", "!raster_m", "!raster_s")
+      n_cpu: !expr c(1, 2, 3, 4)
+
+3R02_raster_local_rqgis:
+  testtype: "[3R02] Rasterdaten mit Map Algebra lokal modifizieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "RQGIS"
+    function: "modify_raster_local_rqgis"
+    param:
+      ras: !expr c("!raster_l", "!raster_m", "!raster_s")
+
+3R03_raster_focal_raster:
+  testtype: "[3R03] Rasterdaten mit Map Algebra fokal modifizieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "raster"
+    function: "modify_raster_focal_raster"
+    param:
+      ras: !expr c("!raster_l", "!raster_m", "!raster_s")
+      window_size: !expr c(3, 9, 27)
+
+3R03_raster_focal_spatial_tools:
+  testtype: "[3R03] Rasterdaten mit Map Algebra fokal modifizieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "spatial.tools"
+    function: "modify_raster_focal_spatial_tools"
+    param:
+      ras: !expr c("!raster_l", "!raster_m", "!raster_s")
+      window_size: !expr c(3, 9, 27)
+      n_cpu: !expr c(1, 2, 3, 4)
+
+4RV01_rasterize_raster_s_m:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -753,8 +1079,8 @@ rasterize_raster_s_m:
       resolution: !expr c(5, 10, 100)
       field: "SUBNET_ID"
 
-rasterize_raster_l:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_raster_l:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   point:
@@ -772,8 +1098,8 @@ rasterize_raster_l:
       resolution: !expr c(5, 10, 100)
       field: "SUBNET_ID"
 
-rasterize_fasterize_s_m:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_fasterize_s_m:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -784,8 +1110,8 @@ rasterize_fasterize_s_m:
       resolution: !expr c(5, 10, 100)
       field: "F_KLASSE"
 
-rasterize_fasterize_l:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_fasterize_l:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -796,8 +1122,8 @@ rasterize_fasterize_l:
       resolution: !expr c(5, 10, 100)
       field: "F_KLASSE"
 
-rasterize_velox_s_m:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_velox_s_m:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   line:
@@ -817,8 +1143,8 @@ rasterize_velox_s_m:
       field: "F_KLASSE"
       small: TRUE
 
-rasterize_velox_l:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_velox_l:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   line:
@@ -830,8 +1156,8 @@ rasterize_velox_l:
       field: "SUBNET_ID"
       small: TRUE
 
-rasterize_gdalutils:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_gdalutils:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -845,8 +1171,8 @@ rasterize_gdalutils:
       tr: !expr c("5 5", "10 10", "100, 100")
       output_Raster: TRUE
 
-rasterize_rqgis_grass7_s_m:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_rqgis_grass7_s_m:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -870,8 +1196,8 @@ rasterize_rqgis_grass7_s_m:
       vector_sp: !expr c("!line_ssp", "!line_msp")
       resolution: !expr c(5, 10, 100)
 
-rasterize_rqgis_grass7_l:
-  testtype: "Vektordaten rasterisieren"
+4RV01_rasterize_rqgis_grass7_l:
+  testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   poly:
@@ -895,30 +1221,8 @@ rasterize_rqgis_grass7_l:
       vector_sp: !expr c("!line_lsp")
       resolution: !expr c(5, 10, 100)
 
-raster_distance_raster:
-  testtype: "Euklidische Entfernung in Rasterdaten berechnen"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  line:
-    package: "raster"
-    function: "raster_distance_raster"
-    param:
-      ras: !expr c("!raster_streets", "!raster_streets_s")
-      band: 1
-
-raster_distance_rqigs:
-  testtype: "Euklidische Entfernung in Rasterdaten berechnen"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  line:
-    package: "RQGIS"
-    function: "raster_distance_rqigs"
-    param:
-      ras: !expr c("!raster_streets", "!raster_streets_s")
-      band: 1
-
-raster_mask_raster:
-  testtype: "Rasterdaten zuschneiden (maskieren)"
+4RV02_raster_mask_raster:
+  testtype: "[4RV02] Rasterdaten zuschneiden (maskieren)"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   line:
@@ -926,10 +1230,10 @@ raster_mask_raster:
     function: "raster_mask_raster"
     param:
       raster: !expr c("!raster_s", "!raster_m", "!raster_l")
-      mask_sp: !expr c("!mask_ssp", "!mask_msp", "!mask_lsp")
+      mask: !expr c("!mask_ssp", "!mask_msp", "!mask_lsp")
 
-raster_mask_raster_fasterize:
-  testtype: "Rasterdaten zuschneiden (maskieren)"
+4RV02_raster_mask_raster_fasterize:
+  testtype: "[4RV02] Rasterdaten zuschneiden (maskieren)"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   line:
@@ -937,62 +1241,10 @@ raster_mask_raster_fasterize:
     function: "raster_mask_raster_fasterize"
     param:
       raster: !expr c("!raster_s", "!raster_m", "!raster_l")
-      mask_sf: !expr c("!mask_ssf", "!mask_msf", "!mask_lsf")
+      mask: !expr c("!mask_ssf", "!mask_msf", "!mask_lsf")
 
-raster_extract_polygon_velox:
-  testtype: "Rasterdaten auf Basis von Polygondaten extrahieren"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  line:
-    package: "velox"
-    function: "raster_extract_polygon_velox"
-    param:
-      ras: !expr c("!landuse_raster")
-      poly: !expr c("!sprengel")
-
-raster_extract_polygon_raster:
-  testtype: "Rasterdaten auf Basis von Polygondaten extrahieren"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  line:
-    package: "raster"
-    function: "raster_extract_polygon_raster"
-    param:
-      ras: !expr c("!landuse_raster")
-      poly: !expr c("!sprengel")
-
-vector_intersect:
-  testtype: "Vektordaten verschneiden: Überschneidung (Intersect)"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  rgeos:
-    package: "rgeos"
-    function: "gIntersection"
-    param:
-      spgeom1: !expr c("!poly_ssp", "poly_msp")
-      spgeom2: !expr c("!poly_2_ssp")
-  sf:
-    package: "sf"
-    function: "st_intersection"
-    param:
-      x: !expr c("!poly_ssf", "!poly_msf")
-      y: !expr c("!poly_2_ssf")
-
-vector_intersect_raster:
-  testtype: "Vektordaten verschneiden: Überschneidung (Intersect)"
-  times: 1
-  path: !expr file.path("test_results", "test_results.csv")
-  raster:
-    package: "raster"
-    function: "intersect"
-    param:
-      x: !expr c("!poly_ssp")
-      y: !expr c("!poly_2_ssp")
-
-
-
-4RV04_raster_extract_point:
-  testtype: "Rasterdaten auf Basis von Punktdaten extrahieren"
+4RV03_raster_extract_point:
+  testtype: "[4RV03] Rasterdaten auf Basis von Punktdaten extrahieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   sp:
@@ -1007,4 +1259,26 @@ vector_intersect_raster:
     param:
       x: !expr c("!raster")
       y: !expr c("!point_lsp")
+
+4RV04_raster_extract_polygon_velox:
+  testtype: "[4RV04] Rasterdaten auf Basis von Polygondaten extrahieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "velox"
+    function: "raster_extract_polygon_velox"
+    param:
+      ras: !expr c("!landuse_raster")
+      poly: !expr c("!sprengel")
+
+4RV04_raster_extract_polygon_raster:
+  testtype: "[4RV04] Rasterdaten auf Basis von Polygondaten extrahieren"
+  times: 1
+  path: !expr file.path("test_results", "test_results.csv")
+  line:
+    package: "raster"
+    function: "raster_extract_polygon_raster"
+    param:
+      ras: !expr c("!landuse_raster")
+      poly: !expr c("!sprengel")
 

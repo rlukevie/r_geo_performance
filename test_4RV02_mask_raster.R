@@ -1,27 +1,26 @@
-#############
-# MASKIEREN #
-#############
+######################
+# 4RV02: MASK RASTER #
+######################
 
-# sp --> NEIN
-# sf --> NEIN
-# rgeos --> NEIN
-# maptools --> NEIN
-# geojsonio --> NEIN
-# rmapshaper --> NEIN
+# sp              --> NO
+# sf              --> NO
+# rgeos           --> NO
+# maptools        --> NO
+# geojsonio       --> NO
+# rmapshaper      --> NO
 
-# raster --> JA, langsam bei großer Maske
-#        --> mit vorhergehendem fasterize deutlich besser
-# spatial.tools --> NEIN
-# gdalUtils --> eventuell mit gdal_translate
-# landscapetools
-# velox
+# raster          --> YES, slow (3.3 sec)
+#                          much faster with preceding fasterize (0.6 sec)
+#                          this effect increases with size of mask
+# spatial.tools   --> NO
+# gdalUtils       --> NO
+# landscapetools  --> NO
+# velox           --> NO
 
-# rgdal --> NEIN
-# RQGIS --> JA, aber Zellstatistik stimmt nicht
+# rgdal           --> NO
+# RQGIS           --> YES, but cell stats is incorrect (4.0 sec)
 
-# fasterize --> NEIN (nur als Zwischenschritt mit raster)
-
-
+# fasterize       --> NO (only used as preceding step with raster)
 # ----------------------------------
 
 

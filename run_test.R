@@ -1,9 +1,5 @@
 library(config)
 
-# GLOBAL VARIABLES
-WRITE_OUTPUT = TRUE
-
-
 # --- define helper functions
 load_packages <- function(config) {
   packages <- unlist(sapply(config, `[`, "package"), use.names = FALSE)
@@ -114,97 +110,125 @@ setwd(this.dir)
 
 
 # --- load test functions
-source("test_functions.R")
+source("testing.R")
+
+
+# --- set rasterOptions
+rasterOptions(maxmemory = 1e+07)
+rasterOptions(datatype = "FLT4S")
+
 
 # --- run tests
 
 
 #############################################################################################
 #                                                                                           #
-#   Vektordaten lesen                                                                       #
+#   1V01: Vektordaten lesen                                                                 #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("read_vector_serialized_sp")
+# config <- prepare_test("1V01_read_vector_serialized_sp")
 # test_performance_grid(config)
 
-# config <- prepare_test("read_vector_serialized_sf")
-# test_performance_grid(config)
-
-
-# config <- prepare_test("read_vector_shape")
+# config <- prepare_test("1V01_read_vector_serialized_sf")
 # test_performance_grid(config)
 
 
-# config <- prepare_test("read_vector_geojson")
+# config <- prepare_test("1V01_read_vector_shape")
 # test_performance_grid(config)
 
 
-# config <- prepare_test("read_vector_kml")
+# config <- prepare_test("1V01_read_vector_geojson")
 # test_performance_grid(config)
 
 
-#############################################################################################
-#                                                                                           #
-#   Rasterdaten lesen                                                                       #
-#                                                                                           #
-#############################################################################################
-
-
-# config <- prepare_test("read_raster_geotiff")
-# test_performance_grid(config)
-
-
-# config <- prepare_test("read_raster_asc")
+# config <- prepare_test("1V01_read_vector_kml")
 # test_performance_grid(config)
 
 
 #############################################################################################
 #                                                                                           #
-#   Vektordaten schreiben                                                                   #
+#   1R01: Rasterdaten lesen                                                                 #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("write_vector_shapesp_s_m")
+# config <- prepare_test("1R01_read_raster_geotiff")
+# test_performance_grid(config)
+
+
+# config <- prepare_test("1R01_read_raster_asc")
+# test_performance_grid(config)
+
+
+#############################################################################################
+#                                                                                           #
+#   1V02: Vektordaten schreiben                                                                   #
+#                                                                                           #
+#############################################################################################
+
+
+# config <- prepare_test("1V02_write_vector_shapesp_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
 
 
-# config <- prepare_test("write_vector_shapesp_l")
+# config <- prepare_test("1V02_write_vector_shapesp_l")
 # read_rdata(layertype = "sp", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 # 
 
-# config <- prepare_test("write_vector_shapesf_s_m")
+# config <- prepare_test("1V02_write_vector_shapesf_s_m")
 # read_rdata(layertype = "sf", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
 # 
 
-# config <- prepare_test("write_vector_shapesf_l")
+# config <- prepare_test("1V02_write_vector_shapesf_l")
 # read_rdata(layertype = "sf", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("l"))
 
+# config <- prepare_test("1V02_write_vector_geojsonsp_s_m")
+# read_rdata(layertype = "sp", sizes = c("s", "m"))
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+# config <- prepare_test("1V02_write_vector_geojsonsp_l")
+# read_rdata(layertype = "sp", sizes = c("l"))
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("l"))
+# 
+
+# config <- prepare_test("1V02_write_vector_geojsonsf_s_m")
+# read_rdata(layertype = "sf", sizes = c("s", "m"))
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# 
+
+# config <- prepare_test("1V02_write_vector_geojsonsf_l")
+# read_rdata(layertype = "sf", sizes = c("l"))
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sf", sizes = c("l"))
 
 #############################################################################################
 #                                                                                           #
-#   Rasterdaten schreiben                                                                   #
+#   1R02: Rasterdaten schreiben                                                             #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("write_raster_geotiff")
+# config <- prepare_test("1R02_write_raster_geotiff")
 # read_raster_with_raster(format = "tif")
 # test_performance_grid(config)
 # remove_raster_objects()
 
 
-# config <- prepare_test("write_raster_asc")
+# config <- prepare_test("1R02_write_raster_asc")
 # read_raster_with_raster(format = "asc")
 # test_performance_grid(config)
 # remove_raster_objects()
@@ -212,30 +236,30 @@ source("test_functions.R")
 
 #############################################################################################
 #                                                                                           #
-#   Vektorattribute modifizieren                                                            #
+#   2V01: Vektorattribute modifizieren                                                      #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("modify_vectorsp_s_m")
+# config <- prepare_test("2V01_modify_vectorsp_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
 
 
-# config <- prepare_test("modify_vectorsp_l")
+# config <- prepare_test("2V01_modify_vectorsp_l")
 # read_rdata(layertype = "sp", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 
 
-# config <- prepare_test("modify_vectorsf_s_m")
+# config <- prepare_test("2V01_modify_vectorsf_s_m")
 # read_rdata(layertype = "sf", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
 
 
-# config <- prepare_test("modify_vectorsf_l")
+# config <- prepare_test("2V01_modify_vectorsf_l")
 # read_rdata(layertype = "sf", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("l"))
@@ -243,12 +267,22 @@ source("test_functions.R")
 
 #############################################################################################
 #                                                                                           #
-#   Rasterdaten reklassifizieren                                                            #
+#   2R01: Rasterdaten reklassifizieren                                                      #
 #                                                                                           #
 #############################################################################################
 
-
-# config <- prepare_test("reclassify_raster_tif")
+# reclassify_raster_qgis_grass7 <- function(raster_name) {
+#   set_env(root = "C:/OSGeo4W64",
+#           new = TRUE)
+#   params <- get_args_man(alg = "grass7:r.reclass")
+#   params$input <- paste0("data_input/", raster_name, ".tif")
+#   params$txtrules <- " -200 thru 0 = 1 0.1 thru 100 = 2 100.1 thru 300 = 3 end"
+#   params$output <- paste0("data_output/", raster_name, "_rec_qgis_grass7.tif")
+#   raster_rec <- run_qgis(alg = "grass7:r.reclass",
+#                          params = params,
+#                          load_output = TRUE)
+# }
+# config <- prepare_test("2R01_reclassify_raster")
 # read_raster_with_raster(format = "tif")
 # rcl = matrix(c(-200, 0, 1, 0, 100, 2, 100, 300, 3), ncol = 3, byrow = TRUE)
 # test_performance_grid(config)
@@ -256,7 +290,8 @@ source("test_functions.R")
 # rm(rcl)
 
 
-# config <- prepare_test("reclassify_raster_asc")
+
+# config <- prepare_test("2R01_reclassify_raster_asc")
 # read_raster_with_raster(format = "asc")
 # rcl = matrix(c(-200, 0, 1, 0, 100, 2, 100, 300, 3), ncol = 3, byrow = TRUE)
 # test_performance_grid(config)
@@ -266,30 +301,30 @@ source("test_functions.R")
 
 #############################################################################################
 #                                                                                           #
-#   Vektordaten projizieren und transformieren                                              #
+#   2V01: Vektordaten projizieren und transformieren                                        #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("reproject_vectorsp_s_m")
+# config <- prepare_test("3V01_reproject_vectorsp_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
 
 
-# config <- prepare_test("reproject_vectorsp_l")
+# config <- prepare_test("3V01_reproject_vectorsp_l")
 # read_rdata(layertype = "sp", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 
 
-# config <- prepare_test("reproject_vectorsf_s_m")
+# config <- prepare_test("3V01_reproject_vectorsf_s_m")
 # read_rdata(layertype = "sf", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
 
 
-# config <- prepare_test("reproject_vectorsf_l")
+# config <- prepare_test("3V01_reproject_vectorsf_l")
 # read_rdata(layertype = "sf", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("l"))
@@ -297,25 +332,31 @@ source("test_functions.R")
 
 #############################################################################################
 #                                                                                           #
-#   Vektordaten räumlich zusammenführen (Spatial Join)                                      #
+#   3V02: Vektordaten räumlich zusammenführen (Spatial Join)                                #
 #                                                                                           #
 #############################################################################################
 
 
-# config <- prepare_test("spatial_joinsf")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# point_lsf <- st_read("data_input/point_l.shp")
+# config <- prepare_test("3V02_spatial_joinsf")
+# read_rdata(layertype = "sf", sizes = c("s", "m", "l"), geomtypes = c("point"))
+# load("data_input/poly_2_ssf.RData")
+# point_lsf <- st_transform(point_lsf, st_crs(poly_2_ssf))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# rm(poly_2_ssf)
 
-# config <- prepare_test("spatial_joinsp")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# point_lsp <- readOGR("data_input/point_l.shp", "point_l")
+# config <- prepare_test("3V02_spatial_joinsp")
+# read_rdata(layertype = "sp", sizes = c("s", "m", "l"), geomtypes = c("point"))
+# load("data_input/poly_2_ssp.RData")
+# poly_2_ssp <- spTransform(poly_2_ssp, CRSobj = CRS("+init=epsg:31256"))
+# point_ssp <- spTransform(point_ssp, CRSobj = CRS("+init=epsg:31256"))
+# point_msp <- spTransform(point_msp, CRSobj = CRS("+init=epsg:31256"))
+# point_lsp <- spTransform(point_lsp, CRSobj = CRS("+init=epsg:31256"))
 # test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# rm(poly_2_ssp)
 
-# config <- prepare_test("spatial_join_points_to_poly_sp")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
+# config <- prepare_test("3V02_spatial_join_points_to_poly_sp")
 # point_lsp <- readOGR("./data_input/point_l.shp", "point_l")
 # poly_2_ssp <- readOGR("./data_input/poly_2_s.shp", "poly_2_s")
 # join_points_to_poly_sp <- function(point, poly) {
@@ -329,34 +370,224 @@ source("test_functions.R")
 #     summarise(point_count = n()) %>%
 #     arrange(id_poly)
 #   poly@data <- left_join(poly@data, overlay_agg, by = c("id_poly" = "id_poly"))
-#   print(max(poly@data$point_count, na.rm = TRUE))
 #   return(poly)
 # }
 # test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# rm(point_lsp)
+# rm(poly_2_ssp)
 
-# 
-# config <- prepare_test("spatial_join_points_to_poly_sf")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
+
+# config <- prepare_test("3V02_spatial_join_points_to_poly_sf")
 # point_lsf <- st_read("./data_input/point_l.shp")
 # poly_2_ssf <- st_read("./data_input/poly_2_s.shp")
 # join_points_to_poly_sf <- function(point, poly) {
 #   poly <- mutate(poly, id_poly = as.numeric(rownames(poly)))
 #   joined = st_join(x = point, y = poly)
-#   joined_agg <- joined %>% 
+#   joined_agg <- joined %>%
 #     group_by(id_poly) %>%
 #     summarise(point_count = n()) %>%
 #     arrange(id_poly)
-#   print(max(subset(joined_agg, !is.na(joined_agg$id_poly))$point_count))
 #   return(joined_agg)
 # }
 # test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# rm(point_lsf)
+# rm(poly_2_ssf)
+
+
 
 
 #############################################################################################
 #                                                                                           #
-#   Vektordaten rasterisieren                                                               #
+#   3V04: Vektordaten verschneiden: Überschneidung (Intersect)                              #
+#                                                                                           #
+#############################################################################################
+
+# config <- prepare_test("3V04_vector_intersect")
+# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
+# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
+# load("data_input/poly_2_ssf.RData")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
+# config <- prepare_test("3V04_vector_intersect_raster")
+# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
+# load("data_input/poly_2_ssp.RData")
+# test_performance_grid(config)
+# remove_layer_objects(layertype = "sp", sizes = c("s"))
+# rm(poly_2_ssf)
+# rm(poly_2_ssp)
+
+
+
+#############################################################################################
+#                                                                                           #
+#   3R01: Euklidische Distanz in Rasterdaten berechnen                                      #
+#                                                                                           #
+#############################################################################################
+
+
+# raster_distance_rqigs <- function(ras, ...) {
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_distance_RQIGS_", raster_name, ".tif")
+#   set_env(root = "C:/OSGeo4W64",
+#           new = TRUE)
+#   params <- get_args_man(alg = "gdalogr:proximity")
+#   params$INPUT <- ras
+#   params$OUTPUT <- filename
+#   params$VALUES <- 30201
+#   params$RTYPE <- 5
+#   params$UNITS <- 0
+#   run_qgis(alg = "gdalogr:proximity", params = params)
+# }
+# library(raster)
+# config <- prepare_test("3R01_raster_distance_rqigs")
+# raster_streets <- raster("data_input/raster_streets_30201.tif")
+# raster_streets_s <- raster("data_input/raster_streets_30201_s.tif")
+# test_performance_grid(config)
+# rm(raster_streets)
+# rm(raster_streets_s)
+
+# raster_distance_raster <- function(ras, ...) {
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_distance_raster_", raster_name, ".tif")
+#   ras_distance <- distance(ras)
+#   writeRaster(ras_distance, filename)
+# }
+# library(raster)
+# config <- prepare_test("3R01_raster_distance_raster")
+# raster_streets <- raster("data_input/raster_streets_30201.tif")
+# raster_streets_s <- raster("data_input/raster_streets_30201_s.tif")
+# test_performance_grid(config)
+# rm(raster_streets)
+# rm(raster_streets_s)
+
+
+#############################################################################################
+#                                                                                           #
+#   3R02: Rasterdaten mit Map Algebra lokal modifizieren                                    #
+#                                                                                           #
+#############################################################################################
+
+
+# modify_raster_local_raster <- function(ras){
+#   fun <- function(x) { # nonsensical test function
+#     ifelse(x < 80, x / (x + 1) * (x + 2), x / (x + 1) * (x + 2) + 1000)
+#   }
+#   raster_local <- calc(x = ras, fun = fun)
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_local_raster_", raster_name, ".tif")
+#   writeRaster(raster_local, filename, overwrite = TRUE)
+# }
+# library(raster)
+# config <- prepare_test("3R02_raster_local_raster")
+# read_raster_with_raster(format = "tif")
+# test_performance_grid(config)
+# remove_raster_objects()
+
+
+# modify_raster_local_spatial_tools <- function(ras, n_cpu){
+#   fun <- function(inraster) { # nonsensical test function
+#     ifelse(inraster < 80, inraster / (inraster + 1) * (inraster + 2),
+#            inraster / (inraster + 1) * (inraster + 2) + 1000)
+#   }
+#   start_time <- Sys.time()
+#   if (n_cpu > 1) {
+#     sfQuickInit(cpus=n_cpu)
+#   }
+#   raster_local_spatial_tools <- rasterEngine(
+#     inraster = ras,
+#     fun = fun)
+#   if (n_cpu > 1) {
+#     sfQuickStop()
+#   }
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_local_spatial_tools_", raster_name, ".tif")
+#   writeRaster(raster_local_spatial_tools, filename, overwrite = TRUE)
+# }
+# library(raster)
+# config <- prepare_test("3R02_raster_local_spatial_tools")
+# read_raster_with_raster(format = "tif")
+# test_performance_grid(config)
+# remove_raster_objects()
+
+
+# modify_raster_local_rqgis <- function(ras) {
+#   set_env(root = "C:/OSGeo4W64",
+#           new = TRUE)
+#   params <- get_args_man(alg = "gdalogr:rastercalculator")
+#   params$INPUT_A <- ras
+#   params$FORMULA <- "where(A<80,A/(A+1)*(A+2),A/(A+1)*(A+2)+1000)"
+#   params$RTYPE <- 5
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_local_rqgis_", raster_name, ".tif")
+#   params$OUTPUT <- filename
+#   raster_local_qgis_gdal <- run_qgis(alg = "gdalogr:rastercalculator",
+#                                      params = params,
+#                                      load_output = TRUE)
+# }
+# library(raster)
+# config <- prepare_test("3R02_raster_local_rqgis")
+# read_raster_with_raster(format = "tif")
+# test_performance_grid(config)
+# remove_raster_objects()
+
+
+#############################################################################################
+#                                                                                           #
+#   3R03: Rasterdaten mit Map Algebra fokal modifizieren                                    #
+#                                                                                           #
+#############################################################################################
+
+# modify_raster_focal_raster <- function(ras, window_size) {
+#   fun <- function(x) {
+#     quantiles <- quantile(x, names = FALSE, na.rm = TRUE)
+#     return(quantiles[2] - 1.5*(quantiles[4] - quantiles[2]))
+#   }
+#   window <- matrix(data = 1, nrow = window_size, ncol = window_size)
+#   raster_focal_raster <- focal(x = ras, w = window, fun = fun)
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_focal_raster_", raster_name, ".tif")
+#   writeRaster(raster_focal_raster, filename, overwrite = TRUE)
+# }
+# library(raster)
+# config <- prepare_test("3R03_raster_focal_raster")
+# read_raster_with_raster(format = "tif")
+# test_performance_grid(config)
+# remove_raster_objects()
+
+
+# modify_raster_focal_spatial_tools <- function(ras, window_size, n_cpu) {
+#   fun <- function(inraster) {
+#     quantiles <- quantile(inraster, names = FALSE, na.rm = TRUE)
+#     return(quantiles[2] - 1.5*(quantiles[4] - quantiles[2]))
+#   }
+#   if (n_cpu > 1) {
+#     sfQuickInit(cpus=n_cpu)
+#   }
+#   raster_focal_spatial_tools <- rasterEngine(
+#     inraster = ras,
+#     fun = fun,
+#     window_dims = c(window_size, window_size))
+#   if (n_cpu > 1) {
+#     sfQuickStop()
+#   }
+#   raster_name <- deparse(substitute(ras))
+#   filename <- paste0("data_output/raster_focal_spatial_tools_", raster_name, ".tif")
+#   writeRaster(raster_focal_spatial_tools, filename, overwrite = TRUE)
+# }
+# library(raster)
+# config <- prepare_test("3R03_raster_focal_spatial_tools")
+# read_raster_with_raster(format = "tif")
+# test_performance_grid(config)
+# remove_raster_objects()
+
+#############################################################################################
+#                                                                                           #
+#   4RV01: Vektordaten rasterisieren                                                        #
 #                                                                                           #
 #############################################################################################
 
@@ -368,11 +599,11 @@ source("test_functions.R")
 #   raster <- raster(vector_sp, res = resolution)
 #   raster <- raster::rasterize(x = vector_sp, y = raster, field = field, filename = filename, overwrite = TRUE)
 # }
-# config <- prepare_test("rasterize_raster_s_m")
+# config <- prepare_test("4RV01_rasterize_raster_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# config <- prepare_test("rasterize_raster_l")
+# config <- prepare_test("4RV01_rasterize_raster_l")
 # read_rdata(layertype = "sp", sizes = c("l"))
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
@@ -384,12 +615,12 @@ source("test_functions.R")
 #   raster <- fasterize::fasterize(sf = vector_sf, raster = raster, field = field, ...)
 #   writeRaster(raster, filename, overwrite = TRUE)
 # }
-# config <- prepare_test("rasterize_fasterize_s_m")
+# config <- prepare_test("4RV01_rasterize_fasterize_s_m")
 # read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = c("poly"))
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# config <- prepare_test("rasterize_fasterize_l")
+# config <- prepare_test("4RV01_rasterize_fasterize_l")
 # read_rdata(layertype = "sf", sizes = c("l"), geomtypes = c("poly"))
 # library(raster)
 # test_performance_grid(config)
@@ -413,20 +644,20 @@ source("test_functions.R")
 #                                 crs = crs)
 #   writeRaster(raster, filename, NAflag = 99999999, overwrite = TRUE)
 # }
-# config <- prepare_test("rasterize_velox_s_m")
+# config <- prepare_test("4RV01_rasterize_velox_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = c("poly", "line"))
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
 
-# config <- prepare_test("rasterize_velox_l")
+# config <- prepare_test("4RV01_rasterize_velox_l")
 # read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line"))
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 # 
 
-# config <- prepare_test("rasterize_gdalutils")
+# config <- prepare_test("4RV01_rasterize_gdalutils")
 # test_performance_grid(config)
 
 
@@ -443,67 +674,24 @@ source("test_functions.R")
 #                             params = params,
 #                             load_output = TRUE)
 # }
-# config <- prepare_test("rasterize_rqgis_grass7_s_m")
+# config <- prepare_test("4RV01_rasterize_rqgis_grass7_s_m")
 # read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = c("poly", "line", "point"))
 # library(RQGIS)
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
 # 
-# config <- prepare_test("rasterize_rqgis_grass7_l")
+# config <- prepare_test("4RV01_rasterize_rqgis_grass7_l")
 # read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line", "point"))
 # library(RQGIS)
 # library(raster)
 # test_performance_grid(config)
 # remove_layer_objects(layertype = "sp", sizes = c("l"))
 
-#############################################################################################
-#                                                                                           #
-#   Euklidische Distanz in Rasterdaten berechnen                                            #
-#                                                                                           #
-#############################################################################################
-
-
-# raster_distance_rqigs <- function(ras, ...) {
-#   raster_name <- deparse(substitute(ras))
-#   filename <- paste0("data_output/raster_distance_RQIGS_", raster_name, ".tif")
-#   print(filename)
-#   set_env(root = "C:/OSGeo4W64",
-#           new = TRUE)
-#   params <- get_args_man(alg = "gdalogr:proximity")
-#   params$INPUT <- ras
-#   params$OUTPUT <- filename
-#   params$VALUES <- 30201
-#   params$RTYPE <- 5
-#   params$UNITS <- 0
-#   run_qgis(alg = "gdalogr:proximity", params = params)
-# }
-# library(raster)
-# config <- prepare_test("raster_distance_rqigs")
-# raster_streets <- raster("data_input/raster_streets_30201.tif")
-# raster_streets_s <- raster("data_input/raster_streets_30201_s.tif")
-# test_performance_grid(config)
-# rm(raster_streets)
-# rm(raster_streets_s)
-
-# raster_distance_raster <- function(ras, ...) {
-#   raster_name <- deparse(substitute(ras))
-#   filename <- paste0("data_output/raster_distance_raster_", raster_name, ".tif")
-#   ras_distance <- distance(ras)
-#   writeRaster(ras_distance, filename)
-# }
-# library(raster)
-# config <- prepare_test("raster_distance_raster")
-# raster_streets <- raster("data_input/raster_streets_30201.tif")
-# raster_streets_s <- raster("data_input/raster_streets_30201_s.tif")
-# test_performance_grid(config)
-# rm(raster_streets)
-# rm(raster_streets_s)
-
 
 #############################################################################################
 #                                                                                           #
-#   Raster zuschneiden (maskieren)                                                          #
+#   4RV02: Raster zuschneiden (maskieren)                                                   #
 #                                                                                           #
 #############################################################################################
 
@@ -518,7 +706,7 @@ source("test_functions.R")
 # }
 # library(raster)
 # library(rgdal)
-# config <- prepare_test("raster_mask_raster")
+# config <- prepare_test("4RV02_raster_mask_raster")
 # raster_s <- raster("data_input/raster_s.tif")
 # raster_m <- raster("data_input/raster_m.tif")
 # raster_l <- raster("data_input/raster_l.tif")
@@ -546,7 +734,7 @@ source("test_functions.R")
 # }
 # library(raster)
 # library(sf)
-# config <- prepare_test("raster_mask_raster_fasterize")
+# config <- prepare_test("4RV02_raster_mask_raster_fasterize")
 # raster_s <- raster("data_input/raster_s.tif")
 # raster_m <- raster("data_input/raster_m.tif")
 # raster_l <- raster("data_input/raster_l.tif")
@@ -563,37 +751,25 @@ source("test_functions.R")
 
 
 
-
 #############################################################################################
 #                                                                                           #
-#   Vektordaten verschneiden: Überschneidung (Intersect)                                    #
+#   4RV03: Rasterdaten auf Basis von Punktdaten extrahieren                                 #
 #                                                                                           #
 #############################################################################################
 
-# config <- prepare_test("vector_intersect")
-# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
-# read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
-# load("data_input/poly_2_ssf.RData")
-# load("data_input/poly_2_ssp.RData")
+# config <- prepare_test("4RV03_raster_extract_point")
+# library(rgdal)
+# grid <- readGDAL("data_input/raster_landuse200708.tif")
+# raster <- raster("data_input/raster_landuse200708.tif")
+# load("data_input/point_lsp.RData")
 # test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-
-# config <- prepare_test("vector_intersect_raster")
-# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
-# load("data_input/poly_2_ssp.RData")
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-
+# rm(grid)
+# rm(point_lsp)
 
 
 #############################################################################################
 #                                                                                           #
-#   Rasterdaten auf Basis von Polygondaten extrahieren                                      #
+#   4RV04: Rasterdaten auf Basis von Polygondaten extrahieren                               #
 #                                                                                           #
 #############################################################################################
 
@@ -619,7 +795,7 @@ source("test_functions.R")
 # library(rgdal)
 # library(raster)
 # library(fasterize)
-# config <- prepare_test("raster_extract_polygon_velox")
+# config <- prepare_test("4RV04_raster_extract_polygon_velox")
 # sprengel <- readOGR("data_input/poly_2_s.shp", "poly_2_s")
 # res = 10
 # landuse <- st_read("data_input/REALNUT200708OGD/REALNUT200708OGDPolygon.shp")
@@ -645,17 +821,16 @@ source("test_functions.R")
 #       value_string <- toString(unique_values_one_poly[[u]])
 #       count <- counts_one_poly[[u]]
 #       data_poly[i, value_string] <- count
+#       }
 #     }
-#   }
 #   poly@data <- cbind(poly@data, data_poly)
-# if (WRITE_OUTPUT) {
 #   writeOGR(poly, "./data_output", "raster_extract_polygon_raster", driver = "ESRI Shapefile", overwrite_layer = TRUE)
 #   }
 # library(sf)
 # library(rgdal)
 # library(raster)
 # library(fasterize)
-# config <- prepare_test("raster_extract_polygon_raster")
+# config <- prepare_test("4RV04_raster_extract_polygon_raster")
 # sprengel <- readOGR("data_input/poly_2_s.shp", "poly_2_s")
 # res = 10
 # landuse <- st_read("data_input/REALNUT200708OGD/REALNUT200708OGDPolygon.shp")
@@ -667,18 +842,3 @@ source("test_functions.R")
 # rm(landuse)
 # rm(landuse_raster)
 
-
-
-#############################################################################################
-#                                                                                           #
-#   4RV03: Rasterdaten auf Basis von Punktdaten extrahieren                                 #
-#                                                                                           #
-#############################################################################################
-config <- prepare_test("4RV04_raster_extract_point")
-library(rgdal)
-grid <- readGDAL("data_input/raster_landuse200708.tif")
-raster <- raster("data_input/raster_landuse200708.tif")
-load("data_input/point_lsp.RData")
-test_performance_grid(config)
-rm(grid)
-rm(point_lsp)
