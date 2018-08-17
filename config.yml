@@ -1010,7 +1010,7 @@ default:
       ras: !expr c("!raster_l", "!raster_m", "!raster_s")
 
 3R02_raster_local_spatial_tools:
-  testtype: [3R02] "Rasterdaten mit Map Algebra lokal modifizieren"
+  testtype: "[3R02] Rasterdaten mit Map Algebra lokal modifizieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
   line:

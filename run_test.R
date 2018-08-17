@@ -114,6 +114,7 @@ source("testing.R")
 
 
 # --- set rasterOptions
+library(raster)
 rasterOptions(maxmemory = 1e+07)
 rasterOptions(datatype = "FLT4S")
 
