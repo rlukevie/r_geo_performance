@@ -9,7 +9,7 @@ default:
     package: "base"
     function: "load"
     param:
-      file: !expr c("data_input/point_ssp.RData", "data_input/point_msp.RData", "data_input/point_lsp.RData", "data_input/line_ssp.RData", "data_input/line_msp.RData", "data_input/line_lsp.RData", "data_input/poly_ssp.RData", "data_input/poly_msp.RData", "data_input/poly_lsp.RData")
+      file: !expr c("data_input/point_ssp.RData", "data_input/point_msp.RData", "data_input/point_lsp.RData", "data_input/line_ssp.RData", "data_input/line_msp.RData", "data_input/line_lsp.RData", "data_input/poly_ssp.RData", "data_input/poly_msp.RData")
       
 1V01_read_vector_serialized_sf:
   testtype: "[1V01] Vektordaten lesen: seralisiert"
@@ -1200,13 +1200,6 @@ default:
   testtype: "[4RV01] Vektordaten rasterisieren"
   times: 1
   path: !expr file.path("test_results", "test_results.csv")
-  poly:
-    package: "RQGIS"
-    function: "rasterize_rqgis_grass7"
-    param:
-      vector_sp: !expr c("!poly_lsp")
-      resolution: !expr c(5, 10, 100)
-      field: "F_KLASSE"
   point:
     package: "RQGIS"
     function: "rasterize_rqgis_grass7"
