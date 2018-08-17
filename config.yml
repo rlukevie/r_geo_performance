@@ -605,7 +605,7 @@ default:
 1R01_read_raster_geotiff:
   testtype: "[1R01] Rasterdaten lesen: GeoTIFF"
   times: 1
-  path: !expr file.path("test_results", "test_results_read_raster.csv")
+  path: !expr file.path("test_results", "test_results.csv")
   raster:
     package: "raster"
     function: "raster"
@@ -622,7 +622,7 @@ default:
 1R01_read_raster_asc:
   testtype: "[1R01] Rasterdaten lesen: asc"
   times: 1
-  path: !expr file.path("test_results", "test_results_read_raster.csv")
+  path: !expr file.path("test_results", "test_results.csv")
   raster:
     package: "raster"
     function: "raster"
