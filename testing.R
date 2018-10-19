@@ -71,8 +71,10 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
   }
   memory_diff_mean <- mean(memory_diffs)
   memory_diff_median <- median(memory_diffs)
+  memory_diff_std <- sd(memory_diffs)
   execution_time_mean <- mean(durations)
   execution_time_median <- median(durations)
+  execution_time_std <- sd(durations)
   
   # create result data.frame
   # parameters <- paste(paste0(names(list(...)), " = ", list(...)), collapse = " ; ")
@@ -113,8 +115,10 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
                        times = times,
                        memory_diff_mean = memory_diff_mean,
                        memory_diff_median = memory_diff_median,
+                       memory_diff_std = memory_diff_std,
                        execution_time_mean = execution_time_mean,
                        execution_time_median = execution_time_median,
+                       execution_time_std = execution_time_std,
                        # benchmark = summary(benchmark),
                        sysname = sysname,
                        cpu = get_cpu()$model_name,
@@ -237,3 +241,108 @@ test_performance_grid <- function(parameter_grid) {
     }
   }
 }
+
+
+# --- define helper functions
+load_packages <- function(config) {
+  packages <- unlist(sapply(config, `[`, "package"), use.names = FALSE)
+  packages <- packages[!is.na(packages)]
+  lapply(packages, library, character.only = TRUE)
+}
+
+prepare_test <- function(testcase) {
+  Sys.setenv(R_CONFIG_ACTIVE = testcase)
+  config <- config::get()
+  load_packages(config)
+  gc()
+  Sys.sleep(0.2)
+  return(config)
+}
+
+read_rdata <- function(layertype, sizes = "all", geomtypes = "all") {
+  if (sizes[1] == "all" & layertype == "sf") {
+    if (geomtypes == "all") {
+      layers <- c("point_s", "line_s", "poly_s",
+                  "point_m", "line_m", "poly_m",
+                  "point_l", "line_l", "poly_l")
+    } else {
+      layers <- c()
+      for (geomtype in geomtypes) {
+        layers <- c(layers, paste0(geomtype, "_s"))
+        layers <- c(layers, paste0(geomtype, "_m"))
+        layers <- c(layers, paste0(geomtype, "_l"))
+      }
+    }
+    
+  } else if (sizes[1] == "all" & layertype == "sp") {
+    if (geomtypes[1] == "all") {
+      layers <- c("point_s", "line_s", "poly_s",
+                  "point_m", "line_m", "poly_m",
+                  "point_l", "line_l")
+    } else {
+      for (geomtype in geomtypes) {
+        layers <- c(layers, paste0(geomtype, "_s"))
+        layers <- c(layers, paste0(geomtype, "_m"))
+        if (geomtype != "poly") {
+          layers <- c(layers, paste0(geomtype, "_l"))
+        }
+      }
+    }
+    
+  } else {
+    layers <- c()
+    for (size in sizes) {
+      if (geomtypes[1] == "all") {
+        layers <- c(layers, paste0("point_", size))
+        layers <- c(layers, paste0("line_", size))
+        if (!(size == "l" & layertype == "sp")) {layers <- c(layers, paste0("poly_", size))}
+      } else {
+        for (geomtype in geomtypes) {
+          if (!(size == "l" & layertype == "sp" & geomtype == "poly")) {
+            layers <- c(layers, paste0(geomtype, "_", size))
+          }
+        }
+      }
+      
+    }
+  }
+  print(layers)
+  for (layer in layers) {
+    load(paste0("data_input/", layer, layertype, ".RData"))
+    eval(parse(text = paste0(layer, layertype, " <<- ", layer, layertype)))
+  }
+}
+
+remove_layer_objects <- function(layertype, sizes = "all") {
+  if (sizes[1] == "all") {
+    layers <- c("point_s", "line_s", "poly_s",
+                "point_m", "line_m", "poly_m",
+                "point_l", "line_l", "poly_l")
+  } else {
+    layers <- c()
+    for (size in sizes) {
+      layers <- c(layers, paste0("point_", size))
+      layers <- c(layers, paste0("line_", size))
+      layers <- c(layers, paste0("poly_", size))
+    }
+  }
+  for (layer in layers) {
+    eval(parse(text = paste0("rm(", layer, layertype, ", pos = '.GlobalEnv')")))
+  }
+}
+
+
+read_raster_with_raster <- function(format) {
+  layers <- list("raster_s", "raster_m", "raster_l")
+  for (layer in layers) {
+    eval(parse(text = paste0(layer, " <<- raster('data_input/", layer, ".", format,"')")))
+  }
+}
+
+remove_raster_objects <- function() {
+  layers <- list("raster_s", "raster_m", "raster_l")
+  for (layer in layers) {
+    eval(parse(text = paste0("rm(", layer, ", pos = '.GlobalEnv')")))
+  }
+}
+
