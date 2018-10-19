@@ -1,108 +1,5 @@
 library(config)
 
-# --- define helper functions
-load_packages <- function(config) {
-  packages <- unlist(sapply(config, `[`, "package"), use.names = FALSE)
-  packages <- packages[!is.na(packages)]
-  lapply(packages, library, character.only = TRUE)
-}
-
-prepare_test <- function(testcase) {
-  Sys.setenv(R_CONFIG_ACTIVE = testcase)
-  config <- config::get()
-  load_packages(config)
-  gc()
-  Sys.sleep(0.2)
-  return(config)
-}
-
-read_rdata <- function(layertype, sizes = "all", geomtypes = "all") {
-  if (sizes[1] == "all" & layertype == "sf") {
-    if (geomtypes == "all") {
-      layers <- c("point_s", "line_s", "poly_s",
-                  "point_m", "line_m", "poly_m",
-                  "point_l", "line_l", "poly_l")
-    } else {
-      layers <- c()
-      for (geomtype in geomtypes) {
-        layers <- c(layers, paste0(geomtype, "_s"))
-        layers <- c(layers, paste0(geomtype, "_m"))
-        layers <- c(layers, paste0(geomtype, "_l"))
-      }
-    }
-    
-  } else if (sizes[1] == "all" & layertype == "sp") {
-    if (geomtypes[1] == "all") {
-      layers <- c("point_s", "line_s", "poly_s",
-                  "point_m", "line_m", "poly_m",
-                  "point_l", "line_l")
-    } else {
-      for (geomtype in geomtypes) {
-        layers <- c(layers, paste0(geomtype, "_s"))
-        layers <- c(layers, paste0(geomtype, "_m"))
-        if (geomtype != "poly") {
-          layers <- c(layers, paste0(geomtype, "_l"))
-        }
-      }
-    }
-    
-  } else {
-    layers <- c()
-    for (size in sizes) {
-      if (geomtypes[1] == "all") {
-        layers <- c(layers, paste0("point_", size))
-        layers <- c(layers, paste0("line_", size))
-        if (!(size == "l" & layertype == "sp")) {layers <- c(layers, paste0("poly_", size))}
-      } else {
-        for (geomtype in geomtypes) {
-          if (!(size == "l" & layertype == "sp")) {
-            layers <- c(layers, paste0(geomtype, "_", size))
-          }
-        }
-      }
-      
-    }
-  }
-  print(layers)
-  for (layer in layers) {
-    load(paste0("data_input/", layer, layertype, ".RData"))
-    eval(parse(text = paste0(layer, layertype, " <<- ", layer, layertype)))
-  }
-}
-
-remove_layer_objects <- function(layertype, sizes = "all") {
-  if (sizes[1] == "all") {
-    layers <- c("point_s", "line_s", "poly_s",
-                "point_m", "line_m", "poly_m",
-                "point_l", "line_l", "poly_l")
-  } else {
-    layers <- c()
-    for (size in sizes) {
-      layers <- c(layers, paste0("point_", size))
-      layers <- c(layers, paste0("line_", size))
-      layers <- c(layers, paste0("poly_", size))
-    }
-  }
-  for (layer in layers) {
-    eval(parse(text = paste0("rm(", layer, layertype, ", pos = '.GlobalEnv')")))
-  }
-}
-
-
-read_raster_with_raster <- function(format) {
-  layers <- list("raster_s", "raster_m", "raster_l")
-  for (layer in layers) {
-    eval(parse(text = paste0(layer, " <<- raster('data_input/", layer, ".", format,"')")))
-  }
-}
-
-remove_raster_objects <- function() {
-  layers <- list("raster_s", "raster_m", "raster_l")
-  for (layer in layers) {
-    eval(parse(text = paste0("rm(", layer, ", pos = '.GlobalEnv')")))
-  }
-}
-
 
 # --- set working directory
 this.dir <- dirname(parent.frame(2)$ofile)
@@ -132,6 +29,7 @@ rasterOptions(datatype = "FLT4S")
 config <- prepare_test("1V01_read_vector_serialized_sp")
 test_performance_grid(config)
 
+
 config <- prepare_test("1V01_read_vector_serialized_sf")
 test_performance_grid(config)
 
@@ -142,6 +40,7 @@ test_performance_grid(config)
 
 config <- prepare_test("1V01_read_vector_geojson")
 test_performance_grid(config)
+# poly_m und poly_l: Absturz bei readOGR geojson
 
 
 config <- prepare_test("1V01_read_vector_kml")
@@ -217,6 +116,65 @@ read_rdata(layertype = "sf", sizes = c("l"))
 test_performance_grid(config)
 remove_layer_objects(layertype = "sf", sizes = c("l"))
 
+
+config <- prepare_test("1V02_write_vector_kmlsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+
 #############################################################################################
 #                                                                                           #
 #   1R02: Rasterdaten schreiben                                                             #
@@ -226,14 +184,46 @@ remove_layer_objects(layertype = "sf", sizes = c("l"))
 
 config <- prepare_test("1R02_write_raster_geotiff")
 read_raster_with_raster(format = "tif")
+library(rgdal)
+raster_sgdal <- readGDAL("data_input/raster_s.tif")
+raster_mgdal <- readGDAL("data_input/raster_m.tif")
+raster_lgdal <- readGDAL("data_input/raster_l.tif")
 test_performance_grid(config)
 remove_raster_objects()
+rm(raster_sgdal)
+rm(raster_mgdal)
+rm(raster_lgdal)
 
 
 config <- prepare_test("1R02_write_raster_asc")
-read_raster_with_raster(format = "asc")
+read_raster_with_raster(format = "tif")
+raster_sgdal <- readGDAL("data_input/raster_s.tif")
+raster_mgdal <- readGDAL("data_input/raster_m.tif")
+raster_lgdal <- readGDAL("data_input/raster_l.tif")
 test_performance_grid(config)
 remove_raster_objects()
+rm(raster_sgdal)
+rm(raster_mgdal)
+rm(raster_lgdal)
+
+config <- prepare_test("1R02_write_raster_asc_maptools")
+raster_smaptools <- readAsciiGrid("data_input/raster_s.asc")
+raster_mmaptools <- readAsciiGrid("data_input/raster_m.asc")
+raster_lmaptools <- readAsciiGrid("data_input/raster_l.asc")
+test_performance_grid(config)
+rm(raster_smaptools)
+rm(raster_mmaptools)
+rm(raster_lmaptools)
+
+config <- prepare_test("1R02_write_raster_asc_sp")
+raster_ssp <- read.asciigrid("data_input/raster_s.asc")
+raster_msp <- read.asciigrid("data_input/raster_m.asc")
+raster_lsp <- read.asciigrid("data_input/raster_l.asc")
+test_performance_grid(config)
+rm(raster_ssp)
+rm(raster_msp)
+rm(raster_lsp)
+
 
 
 #############################################################################################
@@ -293,17 +283,10 @@ remove_raster_objects()
 rm(rcl)
 
 
-config <- prepare_test("2R01_reclassify_raster_asc")
-read_raster_with_raster(format = "asc")
-rcl = matrix(c(-200, 0, 1, 0, 100, 2, 100, 300, 3), ncol = 3, byrow = TRUE)
-test_performance_grid(config)
-remove_raster_objects()
-rm(rcl)
-
 
 #############################################################################################
 #                                                                                           #
-#   2V01: Vektordaten projizieren und transformieren                                        #
+#   3V01: Vektordaten projizieren und transformieren                                        #
 #                                                                                           #
 #############################################################################################
 
@@ -361,6 +344,8 @@ rm(poly_2_ssp)
 
 
 config <- prepare_test("3V02_spatial_join_points_to_poly_sp")
+library(rgdal)
+library(dplyr)
 point_lsp <- readOGR("./data_input/point_l.shp", "point_l")
 poly_2_ssp <- readOGR("./data_input/poly_2_s.shp", "poly_2_s")
 join_points_to_poly_sp <- function(point, poly) {
@@ -407,15 +392,14 @@ rm(poly_2_ssf)
 
 config <- prepare_test("3V04_vector_intersect")
 read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
-read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = "poly")
+read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
 load("data_input/poly_2_ssf.RData")
 load("data_input/poly_2_ssp.RData")
 test_performance_grid(config)
 remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+remove_layer_objects(layertype = "sp", sizes = c("s"))
 rm(poly_2_ssf)
 rm(poly_2_ssp)
-
 
 config <- prepare_test("3V04_vector_intersect_raster")
 read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
@@ -459,7 +443,7 @@ raster_distance_raster <- function(ras, ...) {
   raster_name <- deparse(substitute(ras))
   filename <- paste0("data_output/raster_distance_raster_", raster_name, ".tif")
   ras_distance <- distance(ras)
-  writeRaster(ras_distance, filename)
+  writeRaster(ras_distance, filename, overwrite = TRUE)
 }
 library(raster)
 config <- prepare_test("3R01_raster_distance_raster")
@@ -591,6 +575,7 @@ test_performance_grid(config)
 remove_raster_objects()
 
 
+
 #############################################################################################
 #                                                                                           #
 #   4RV01: Vektordaten rasterisieren                                                        #
@@ -644,11 +629,11 @@ rasterize_velox <- function(vector_sp, resolution, field, ...) {
   raster_vx <- velox(raster)
   raster_vx$rasterize(vector_sp, band = 1, field = field, ...)
   raster <- raster(x = raster_vx$rasterbands[[1]],
-                                xmn = extent@xmin,
-                                xmx = extent@xmax,
-                                ymn = extent@ymin,
-                                ymx = extent@ymax,
-                                crs = crs)
+                   xmn = extent@xmin,
+                   xmx = extent@xmax,
+                   ymn = extent@ymin,
+                   ymx = extent@ymax,
+                   crs = crs)
   writeRaster(raster, filename, NAflag = 99999999, overwrite = TRUE)
 }
 config <- prepare_test("4RV01_rasterize_velox_s_m")
@@ -669,6 +654,8 @@ config <- prepare_test("4RV01_rasterize_gdalutils")
 test_performance_grid(config)
 
 
+
+
 rasterize_rqgis_grass7 <- function(vector_sp, resolution, field) {
   set_env(root = "C:/OSGeo4W64",
           new = TRUE)
@@ -677,17 +664,19 @@ rasterize_rqgis_grass7 <- function(vector_sp, resolution, field) {
   params$attribute_column = field
   params$GRASS_REGION_CELLSIZE_PARAMETER = resolution
   params$output <- "data_output/rasterize_rqgis_grass7.tif"
-  poly_s_raster <- run_qgis(alg = "grass7:v.to.rast.attribute",
-                            params = params,
-                            load_output = TRUE)
+  print(params)
+  rasterized <- run_qgis(alg = "grass7:v.to.rast.attribute",
+                         params = params,
+                         load_output = TRUE)
 }
 config <- prepare_test("4RV01_rasterize_rqgis_grass7_s_m")
 read_rdata(layertype = "sp", sizes = c("s", "m"), geomtypes = c("poly", "line", "point"))
 library(RQGIS)
 library(raster)
+library(rgdal)
 test_performance_grid(config)
 remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-
+# Unfortunately, QGIS did not produce: C:/Users/rolandstudio/AIT/50_performance_messung/data_output/rasterize_rqgis_grass7.tif
 config <- prepare_test("4RV01_rasterize_rqgis_grass7_l")
 read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line", "point"))
 library(RQGIS)
@@ -829,11 +818,11 @@ raster_extract_polygon_raster <- function(ras, poly) {
       value_string <- toString(unique_values_one_poly[[u]])
       count <- counts_one_poly[[u]]
       data_poly[i, value_string] <- count
-      }
     }
+  }
   poly@data <- cbind(poly@data, data_poly)
   writeOGR(poly, "./data_output", "raster_extract_polygon_raster", driver = "ESRI Shapefile", overwrite_layer = TRUE)
-  }
+}
 library(sf)
 library(rgdal)
 library(raster)
