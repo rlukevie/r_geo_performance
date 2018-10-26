@@ -43,7 +43,7 @@ landuse_raster <- raster(landuse, res = RESOLUTION, val = 1)
 landuse_raster <- fasterize(sf = landuse, raster = landuse_raster, field = "NUTZUNG_CO")
 
 ext <- extract(landuse_raster, sprengel)
-
+res = res(landuse_raster)
 data_sprengel <- data.frame()
 
 for (i in 1:length(ext)) {
@@ -88,6 +88,7 @@ landuse_raster <- fasterize(sf = landuse, raster = landuse_raster, field = "NUTZ
 landuse_raster_vx <- velox(landuse_raster)
 ext <- landuse_raster_vx$extract(sprengel)
 data_sprengel <- data.frame()
+res_factor = res(landuse_raster)[1]*res(landuse_raster)[2]
 
 for (i in 1:length(ext)) {
   tab <- table(ext[[i]])
@@ -97,7 +98,7 @@ for (i in 1:length(ext)) {
   for (u in 1:nrows) {
     value_string <- toString(unique_values_one_sprengel[[u]])
     count <- counts_one_sprengel[[u]]
-    data_sprengel[i, value_string] <- count
+    data_sprengel[i, value_string] <- count * res_factor
   }
 }
 

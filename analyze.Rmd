@@ -31,8 +31,8 @@ df <- df %>%
                               ifelse(poly == 1, "poly",
                                      ifelse(raster == 1, "raster", "???"))))) %>%
   mutate(testtype = str_replace_all(testtype, "seralisiert", "serialisiert")) %>%
-  select(-point, -line, -poly, -raster, -times, -datetime, -memory_diff_median, -execution_time_median, -sysname, -cpu) %>%
-  mutate(package = ifelse(package == "raster", paste0(package, "\n(", raster_datatype, ")"), package))
+  select(-point, -line, -poly, -raster, -times, -datetime, -memory_diff_median, -execution_time_median, -sysname, -cpu)
+  # mutate(package = ifelse(package == "raster", paste0(package, "\n(", raster_datatype, ")"), package))
 head(df)
 ```
 
@@ -324,22 +324,11 @@ for (sub_type in c("GeoTIFF", "asc")){
 ```{r}
 test_type <- "1R02"
 test_name <- "Rasterdaten schreiben"
-# test_size <- "medium"
-# test_geom <- "line"
 df3 <- df %>%
-  # filter(raster_datatype == "FLT4S") %>%
   mutate(size = factor(size, c("small", "medium", "large"))) %>%
   filter(str_detect(testtype, test_type)) %>%
-  # filter(size == test_size) %>%
-  # filter(geom == test_geom) %>%
   mutate(subtype = str_sub(str_extract(testtype, ":.*"), 3, -1))  %>%
   mutate(package_with_datatype = paste0(package, "\n(", raster_datatype, ")"))
-  # mutate(execution_time_mean = ifelse(execution_time_mean < 0.05, round(execution_time_mean, 2), round(execution_time_mean, 1)))
-  # mutate(geom = factor(geom, c("point", "line", "poly"))) %>%
-  # mutate(subtype = factor(subtype, c("serialisiert", "Shapefile", "GeoJSON", "KML"))) %>%
-  # mutate(package = ifelse(str_detect(parameters, "sp") & package == "base", "base (rgdal)", package)) %>%
-  # mutate(package = ifelse(str_detect(parameters, "sf") & package == "base", "base (sf)", package))
-
 
 df_raster <- df3 %>%
   filter(package == "raster")
@@ -366,12 +355,9 @@ for (sub_type in c("GeoTIFF", "asc")){
     facet_grid(. ~ size, scales = "free_x") +
     ylab("mittlere Ausführungszeit [Sekunden]") +
     xlab("Package") +
-    # ylim(c(0,600)) +
-    # scale_y_continuous(expand = c(.1, 0)) +
     ggtitle(paste0("[", test_type, "] ", test_name, "\nMittlere Ausführungszeiten bei drei Testdurchläufen", ", Datenformat: ", sub_type)) +
     rremove("x.grid") +
     theme(plot.title = element_text(size=13))
-    # scale_fill_discrete(name = "Geometrie")
   )
 }
 
@@ -397,12 +383,9 @@ for (sub_type in c("GeoTIFF", "asc")){
     facet_grid(. ~ size, scales = "free_x") +
     ylab("mittlere Speichernutzung [MByte]") +
     xlab("Package") +
-    # ylim(c(0,600)) +
-    # scale_y_continuous(expand = c(.1, 0)) +
     ggtitle(paste0("[", test_type, "] ", test_name, "\nMittlere Speichernutzung bei drei Testdurchläufen", ", Datenformat: ", sub_type)) +
     rremove("x.grid") +
     theme(plot.title = element_text(size=13))
-    # scale_fill_discrete(name = "Geometrie")
   )
 }
 
@@ -487,7 +470,7 @@ test_type <- "2V01"
 test_name <- "Vektorattribute modifizieren"
 # test_size <- "medium"
 # test_geom <- "line"
-df3 <- df %>%
+df2 <- df %>%
   mutate(size = factor(size, c("small", "medium", "large"))) %>%
   filter(str_detect(testtype, test_type)) %>%
   # filter(size == test_size) %>%
@@ -498,12 +481,18 @@ df3 <- df %>%
   # mutate(package = ifelse(str_detect(parameters, "sp") & package == "base", "base (rgdal)", package)) %>%
   # mutate(package = ifelse(str_detect(parameters, "sf") & package == "base", "base (sf)", package))
 
+df3 <- df2 %>%
+  group_by(geom, size) %>%
+  summarise(execution_time_min = min(execution_time_mean)) %>%
+  full_join(df2, by = c("geom", "size")) %>%
+  mutate(fac = execution_time_mean / execution_time_min) %>%
+  arrange(desc(fac))
 
 for (data_size in c("small", "medium", "large")) {
   df_temp <- df3 %>%
     filter(size == data_size)
   print(ggplot(df_temp, aes(x = package, y = execution_time_mean, 
-                            label = paste0(sprintf("%0.2f", round(execution_time_mean, 2))))) +
+                            label = paste0(sprintf("%0.2f", round(execution_time_mean, 2)), " (", sprintf("%0.2f", round(fac, 2)), ")"))) +
     geom_col(position = "dodge", width = std_width, fill = std_fill) +
     geom_errorbar(aes(ymin = execution_time_mean - execution_time_std,
           ymax = execution_time_mean + execution_time_std),
@@ -625,7 +614,7 @@ ggplot(df2, aes(x = package_with_datatype, y = memory_diff_mean, label = round(m
 # 3V01
 ```{r}
 test_type <- "3V01"
-test_name <- "Vektordaten projezieren und transformieren"
+test_name <- "Vektordaten projizieren und transformieren"
 # test_size <- "medium"
 # test_geom <- "line"
 df3 <- df %>%
@@ -713,7 +702,7 @@ df2 <- df3 %>%
   mutate(fac = execution_time_mean / execution_time_min) %>%
   arrange(desc(fac))
 
-
+test_name <- "Spatial Join: Punkte zu Polygonen"
 ggplot(df2, aes(x = package, y = execution_time_mean, 
                     label = paste0(sprintf("%0.1f", round(execution_time_mean, 1)), " (", round(fac, 1), ")"))) +
   geom_col(position = "dodge", width = std_width / 2, fill = std_fill) +
@@ -723,7 +712,7 @@ ggplot(df2, aes(x = package, y = execution_time_mean,
     position=position_dodge(std_width),
     colour = std_errorbar_color) +
   geom_text(size = 3, vjust = "inward") +
-  # facet_grid(. ~ package, scales = "free_x") +
+  facet_grid(. ~ size, scales = "free_x") +
   ylab("mittlere Ausführungszeit [Sekunden]") +
   xlab("Package") +
   ggtitle(paste0("[", test_type, "] ", test_name, "\nMittlere Ausführungszeiten bei drei Testdurchläufen")) +
@@ -737,7 +726,7 @@ df2 <- df3 %>%
   full_join(df3, by = c("geom", "size", "subtype")) %>%
   mutate(fac = memory_diff_mean / memory_diff_min) %>%
   arrange(desc(fac))
-
+test_name <- "Spatial Join: Punkte zu Polygonen"
 ggplot(df2, aes(x = package, y = memory_diff_mean, 
                     label = paste0(sprintf("%0.1f", round(memory_diff_mean, 1)), " (", round(fac, 1), ")"))) +
   geom_col(position = "dodge", width = std_width / 2, fill = std_fill_memory) +
@@ -747,7 +736,7 @@ ggplot(df2, aes(x = package, y = memory_diff_mean,
     position=position_dodge(std_width),
     colour = std_errorbar_color) +
   geom_text(size = 3, vjust = "inward") +
-  # facet_grid(. ~ package, scales = "free_x") +
+  facet_grid(. ~ size, scales = "free_x") +
   ylab("mittlere Speichernutzung [MByte]") +
   xlab("Package") +
   ggtitle(paste0("[", test_type, "] ", test_name, "\nMittlere Speichernutzung bei drei Testdurchläufen")) +
@@ -1067,11 +1056,13 @@ ggplot(df2, aes(x = package, y = execution_time_mean,
   # scale_fill_discrete(name = "Geometrie", drop = FALSE) +
   theme(plot.title = element_text(size=13)) + 
   theme(axis.text.x = element_text(size=8))
+```
 
+```{r}
 df2 <- df3 %>%
-  group_by(geom, size, subtype) %>%
+  group_by(geom, size, subtype, window_size) %>%
   summarise(memory_diff_min = min(memory_diff_mean)) %>%
-  full_join(df3, by = c("geom", "size", "subtype")) %>%
+  full_join(df3, by = c("geom", "size", "subtype", "window_size")) %>%
   mutate(fac = memory_diff_mean / memory_diff_min) %>%
   arrange(desc(fac))
 

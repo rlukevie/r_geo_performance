@@ -24,6 +24,7 @@
 # rqgis (gdalogr:rasterize)
 library(RQGIS)
 library(raster)
+library(rgdal)
 poly_s <- readOGR("data_input/poly_s.shp", "poly_s")
 set_env(root = "C:/OSGeo4W64",
         new = TRUE)
@@ -54,7 +55,7 @@ library(gdalUtils)
 library(raster)
 start_time <- Sys.time()
 poly_s_raster <- gdal_rasterize(src_datasource = "data_input/poly_s.shp",
-               dst_filename = "data_output/rasterize_gdalutils.tiff",
+               dst_filename = "data_output/rasterize_gdalutils.tif",
                a = "F_KLASSE",
                ot = "Byte",
                tr = "10 10",

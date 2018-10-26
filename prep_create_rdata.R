@@ -22,4 +22,6 @@ for (layer in layers) {
   eval(parse(text = paste0("rm(", layer, "sp)")))
 }
 
-
+library(rgdal)
+sp <- readOGR(dsn = "./data_input/poly_l.shp", layer = "poly_l")
+save(sp, file = "data_input/poly_lsp.RData")

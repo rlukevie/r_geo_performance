@@ -97,8 +97,6 @@ config <- prepare_test("4RV01_rasterize_gdalutils")
 test_performance_grid(config)
 
 
-
-
 rasterize_rqgis_grass7 <- function(vector_sp, resolution, field) {
  set_env(root = "C:/OSGeo4W64",
          new = TRUE)
@@ -215,6 +213,7 @@ rm(point_lsp)
 
 
 raster_extract_polygon_velox <- function(ras, poly) {
+  res_factor = res(ras)[1] * res(ras)[2]
   ras_vx <- velox(ras)
   ext <- ras_vx$extract(poly)
   data_poly <- data.frame()
@@ -226,7 +225,7 @@ raster_extract_polygon_velox <- function(ras, poly) {
     for (u in 1:nrows) {
       value_string <- toString(unique_values_one_poly[[u]])
       count <- counts_one_poly[[u]]
-      data_poly[i, value_string] <- count
+      data_poly[i, value_string] <- count * res_factor
     }
   }
   poly@data <- cbind(poly@data, data_poly)
@@ -250,6 +249,7 @@ rm(landuse_raster)
 
 
 raster_extract_polygon_raster <- function(ras, poly) {
+  res_factor = res(ras)[1] * res(ras)[2]
   ext <- extract(ras, poly)
   data_poly <- data.frame()
   for (i in 1:length(ext)) {
@@ -260,7 +260,7 @@ raster_extract_polygon_raster <- function(ras, poly) {
     for (u in 1:nrows) {
       value_string <- toString(unique_values_one_poly[[u]])
       count <- counts_one_poly[[u]]
-      data_poly[i, value_string] <- count
+      data_poly[i, value_string] <- count * res_factor
     }
   }
   poly@data <- cbind(poly@data, data_poly)

@@ -17,37 +17,37 @@ rasterOptions(datatype = "FLT4S")
 
 
 # --- run tests
-# 
-# #############################################################################################
-# #                                                                                           #
-# #   2V01: Vektorattribute modifizieren                                                      #
-# #                                                                                           #
-# #############################################################################################
-# 
-# 
-# config <- prepare_test("2V01_modify_vectorsp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("2V01_modify_vectorsp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("2V01_modify_vectorsf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("2V01_modify_vectorsf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
+
+#############################################################################################
+#                                                                                           #
+#   2V01: Vektorattribute modifizieren                                                      #
+#                                                                                           #
+#############################################################################################
+
+
+config <- prepare_test("2V01_modify_vectorsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+config <- prepare_test("2V01_modify_vectorsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("2V01_modify_vectorsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("2V01_modify_vectorsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
 
 #############################################################################################
 #                                                                                           #

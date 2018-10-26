@@ -26,34 +26,34 @@ rasterOptions(datatype = "FLT4S")
 #############################################################################################
 
 
-# config <- prepare_test("1V01_read_vector_serialized_sp")
-# test_performance_grid(config)
-# 
-# 
-# config <- prepare_test("1V01_read_vector_serialized_sf")
-# test_performance_grid(config)
-# 
-# 
-# config <- prepare_test("1V01_read_vector_shape")
-# test_performance_grid(config)
-# 
-# 
-# config <- prepare_test("1V01_read_vector_geojson")
-# test_performance_grid(config)
-# # poly_m und poly_l: Absturz bei readOGR geojson
-# 
-# 
-# config <- prepare_test("1V01_read_vector_kml")
-# test_performance_grid(config)
-# 
-# 
-# #############################################################################################
-# #                                                                                           #
-# #   1R01: Rasterdaten lesen                                                                 #
-# #                                                                                           #
-# #############################################################################################
-# 
-# 
+config <- prepare_test("1V01_read_vector_serialized_sp")
+test_performance_grid(config)
+
+
+config <- prepare_test("1V01_read_vector_serialized_sf")
+test_performance_grid(config)
+
+
+config <- prepare_test("1V01_read_vector_shape")
+test_performance_grid(config)
+
+
+config <- prepare_test("1V01_read_vector_geojson")
+test_performance_grid(config)
+# poly_m und poly_l: Absturz bei readOGR geojson
+
+
+config <- prepare_test("1V01_read_vector_kml")
+test_performance_grid(config)
+
+
+#############################################################################################
+#                                                                                           #
+#   1R01: Rasterdaten lesen                                                                 #
+#                                                                                           #
+#############################################################################################
+
+
 config <- prepare_test("1R01_read_raster_geotiff")
 test_performance_grid(config)
 
@@ -67,115 +67,115 @@ test_performance_grid(config)
 #   1V02: Vektordaten schreiben                                                             #
 #                                                                                           #
 #############################################################################################
-# 
-# 
-# config <- prepare_test("1V02_write_vector_shapesp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_shapesp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_shapesf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_shapesf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_geojsonsp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# # poly_m und poly_l: Absturz bei readOGR geojson
-# 
-# 
-# config <- prepare_test("1V02_write_vector_geojsonsp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_geojsonsf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_geojsonsf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_kmlsp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_kmlsp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_kmlsf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("1V02_write_vector_kmlsf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
-# save_serialized <- function(object, fname) {
-#   save(object, file = fname)
-# }
-# config <- prepare_test("1V02_write_vector_serializedsp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# 
-# save_serialized <- function(object, fname) {
-#   save(object, file = fname)
-# }
-# config <- prepare_test("1V02_write_vector_serializedsp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# save_serialized <- function(object, fname) {
-#   save(object, file = fname)
-# }
-# config <- prepare_test("1V02_write_vector_serializedsf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# save_serialized <- function(object, fname) {
-#   save(object, file = fname)
-# }
-# config <- prepare_test("1V02_write_vector_serializedsf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
-# 
+
+
+config <- prepare_test("1V02_write_vector_shapesp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_shapesp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_shapesf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_shapesf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_geojsonsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+# poly_m und poly_l: Absturz bei readOGR geojson
+
+
+config <- prepare_test("1V02_write_vector_geojsonsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_geojsonsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_geojsonsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("1V02_write_vector_kmlsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+save_serialized <- function(object, fname) {
+  save(object, file = fname)
+}
+config <- prepare_test("1V02_write_vector_serializedsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+
 #############################################################################################
 #                                                                                           #
 #   1R02: Rasterdaten schreiben                                                             #

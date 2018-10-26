@@ -18,7 +18,6 @@ rasterOptions(datatype = "FLT4S")
 
 # --- run tests
 
-
 #############################################################################################
 #                                                                                           #
 #   1V01: Vektordaten lesen                                                                 #
@@ -40,7 +39,6 @@ test_performance_grid(config)
 
 config <- prepare_test("1V01_read_vector_geojson")
 test_performance_grid(config)
-# poly_m und poly_l: Absturz bei readOGR geojson
 
 
 config <- prepare_test("1V01_read_vector_kml")
@@ -206,6 +204,7 @@ rm(raster_sgdal)
 rm(raster_mgdal)
 rm(raster_lgdal)
 
+
 config <- prepare_test("1R02_write_raster_asc_maptools")
 raster_smaptools <- readAsciiGrid("data_input/raster_s.asc")
 raster_mmaptools <- readAsciiGrid("data_input/raster_m.asc")
@@ -215,6 +214,7 @@ rm(raster_smaptools)
 rm(raster_mmaptools)
 rm(raster_lmaptools)
 
+
 config <- prepare_test("1R02_write_raster_asc_sp")
 raster_ssp <- read.asciigrid("data_input/raster_s.asc")
 raster_msp <- read.asciigrid("data_input/raster_m.asc")
@@ -223,7 +223,6 @@ test_performance_grid(config)
 rm(raster_ssp)
 rm(raster_msp)
 rm(raster_lsp)
-
 
 
 #############################################################################################
@@ -281,7 +280,6 @@ rcl = matrix(c(-200, 0, 1, 0, 100, 2, 100, 300, 3), ncol = 3, byrow = TRUE)
 test_performance_grid(config)
 remove_raster_objects()
 rm(rcl)
-
 
 
 #############################################################################################
@@ -400,6 +398,7 @@ remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
 remove_layer_objects(layertype = "sp", sizes = c("s"))
 rm(poly_2_ssf)
 rm(poly_2_ssp)
+
 
 config <- prepare_test("3V04_vector_intersect_raster")
 read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
@@ -575,7 +574,6 @@ test_performance_grid(config)
 remove_raster_objects()
 
 
-
 #############################################################################################
 #                                                                                           #
 #   4RV01: Vektordaten rasterisieren                                                        #
@@ -654,8 +652,6 @@ config <- prepare_test("4RV01_rasterize_gdalutils")
 test_performance_grid(config)
 
 
-
-
 rasterize_rqgis_grass7 <- function(vector_sp, resolution, field) {
   set_env(root = "C:/OSGeo4W64",
           new = TRUE)
@@ -676,7 +672,6 @@ library(raster)
 library(rgdal)
 test_performance_grid(config)
 remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# Unfortunately, QGIS did not produce: C:/Users/rolandstudio/AIT/50_performance_messung/data_output/rasterize_rqgis_grass7.tif
 config <- prepare_test("4RV01_rasterize_rqgis_grass7_l")
 read_rdata(layertype = "sp", sizes = c("l"), geomtypes = c("poly", "line", "point"))
 library(RQGIS)
@@ -772,6 +767,7 @@ rm(point_lsp)
 
 
 raster_extract_polygon_velox <- function(ras, poly) {
+  res_factor = res(ras)[1] * res(ras)[2]
   ras_vx <- velox(ras)
   ext <- ras_vx$extract(poly)
   data_poly <- data.frame()
@@ -783,7 +779,7 @@ raster_extract_polygon_velox <- function(ras, poly) {
     for (u in 1:nrows) {
       value_string <- toString(unique_values_one_poly[[u]])
       count <- counts_one_poly[[u]]
-      data_poly[i, value_string] <- count
+      data_poly[i, value_string] <- count * res_factor
     }
   }
   poly@data <- cbind(poly@data, data_poly)
@@ -807,6 +803,7 @@ rm(landuse_raster)
 
 
 raster_extract_polygon_raster <- function(ras, poly) {
+  res_factor = res(ras)[1] * res(ras)[2]
   ext <- extract(ras, poly)
   data_poly <- data.frame()
   for (i in 1:length(ext)) {
@@ -817,7 +814,7 @@ raster_extract_polygon_raster <- function(ras, poly) {
     for (u in 1:nrows) {
       value_string <- toString(unique_values_one_poly[[u]])
       count <- counts_one_poly[[u]]
-      data_poly[i, value_string] <- count
+      data_poly[i, value_string] <- count * res_factor
     }
   }
   poly@data <- cbind(poly@data, data_poly)

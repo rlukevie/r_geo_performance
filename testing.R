@@ -1,16 +1,7 @@
-#library(sf)
-#library(rgdal)
-# library(microbenchmark)
-#library(ggplot2)
 library(benchmarkme)
 library(readr)
 library(rlist)
 library(stringr)
-
-
-
-
-# test_performance <- function(FUN, ..., fun_string = "", times = 1, testtype, package, path) {
 
 test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_files = FALSE, testtype, package, path) {
   # get system information
@@ -33,20 +24,7 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
     if (sysname == "Windows") {
       memory_before <- memory.size()
     }
-    
-    
-    # print(parstr)
-    # print(fun_string)
-    # if (parstr != "NULL = ''") {
-    #   start_time <- Sys.time()
-    #   eval(parse(text = paste0(fun_string, "(", parstr, ")")))
-    # }
-    # else {
-    #   start_time <- Sys.time()
-    #   eval(parse(text = fun_string))
-    # }
-    # durations[i] <- (Sys.time() - start_time) #* 1000 # in milliseconds
-    
+
     if (parstr != "FALSE = ''") {
       eval(parse(text = paste0("time <- system.time(", fun_string, "(", parstr, ")", ")")))
     } else {
@@ -77,7 +55,6 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
   execution_time_std <- sd(durations)
   
   # create result data.frame
-  # parameters <- paste(paste0(names(list(...)), " = ", list(...)), collapse = " ; ")
   if ((length(grep("_s", fun_string)) > 0) | (length(grep("_s", parstr)) > 0)) {
     size = "small"
   } else if ((length(grep("_m", fun_string)) > 0) | (length(grep("_m", parstr)) > 0)) {
@@ -101,7 +78,7 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
   if ((length(grep("raster", fun_string)) > 0) | (length(grep("raster", parstr)) > 0)) {
     datatype[4] <- 1
   }
-  # print(as.character(fun_string))
+  
   result <- data.frame(datetime = Sys.time(),
                        testtype = testtype,
                        package = package,
@@ -119,11 +96,9 @@ test_performance <- function(FUN, parstr, fun_string, times = 1, remove_output_f
                        execution_time_mean = execution_time_mean,
                        execution_time_median = execution_time_median,
                        execution_time_std = execution_time_std,
-                       # benchmark = summary(benchmark),
                        sysname = sysname,
                        cpu = get_cpu()$model_name,
                        stringsAsFactors = FALSE)
-  # result$benchmark.expr <- NULL
   
   # write to csv
   if (file.exists(path)) {
@@ -190,7 +165,6 @@ test_performance_grid <- function(parameter_grid) {
       } else {
         names_list <- names(gridlist[[section]][param_combination, ])
       }
-      # print(names_list)
       # strange bug with parameters called 'y'
       names_list[names_list == "TRUE"] <- "y"
       
@@ -205,26 +179,13 @@ test_performance_grid <- function(parameter_grid) {
         parvec <- c(parvec, paste0(names_list[i], " = ", values[i]))
       }
       parstr <- paste(parvec, collapse = ", ")
-      # print(parstr)
-      # print(f)
-      # print(parstr)
-      # fun_string = paste0(f, "(", parstr, ")")
       fun_string = f
       print(paste0("fun_string: ", fun_string))
+      
       # start performance test and print some results on console
       print(paste0("+++ ", f, "{", package, "}"))
       print(paste0("    Test iterations:     ", times))
       print(paste0("    Parameters:          ", parstr))
-      # test_performance_string = paste0("result <- test_performance(", 
-      #                                  "FUN = ", f,
-      #                                  ", ", parstr,
-      #                                  ", fun_string = ", fun_string,
-      #                                  ", times = ", times,
-      #                                  ", testtype = '", testtype, "'",
-      #                                  ", package = '", package, "'",
-      #                                  ", path = '", path, "'",
-      #                                  ")")
-      # print(test_performance_string)
       eval(parse(text = paste0("result <- test_performance(", 
                                "FUN = '", f, "'",
                                ", parstr = \"", parstr, "\"",
@@ -234,7 +195,6 @@ test_performance_grid <- function(parameter_grid) {
                                ", package = '", package, "'",
                                ", path = '", path, "'",
                                ")")))
-      # print(paste0("    Function call:       ", fun_string))
       print(paste0("    Mean execution time: ", round(result[1, "execution_time_mean"], digits = 2), " s"))
       print(paste0("    Mean memory used:    ", round(result[1, "memory_diff_mean"], digits = 2), " Mb"))
       print("---")

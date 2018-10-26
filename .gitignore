@@ -1,4 +1,5 @@
 packrat/lib*/
+.qgs
 .Rproj.user
 .Rhistory
 .RData
@@ -8,4 +9,5 @@ data_input/
 data_input_prep/
 data_output/
 test_results/
+qgis/
 test_functions.Rmd

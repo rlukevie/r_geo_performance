@@ -24,7 +24,7 @@
 # ----------------------------------
 
 
-# raster mit vorhergehendem crop
+# raster with crop
 library(raster)
 library(sf)
 start_time <- Sys.time()
@@ -37,7 +37,7 @@ print(Sys.time() - start_time)
 cellStats(raster_mask_raster, stat = 'sum')
 plot(raster_mask_raster)
 
-# raster mit fasterize
+# raster with fasterize
 library(raster)
 library(sf)
 start_time <- Sys.time()

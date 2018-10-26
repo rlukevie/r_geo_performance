@@ -18,134 +18,134 @@ rasterOptions(datatype = "FLT4S")
 
 # --- run tests
 
-# 
-# #############################################################################################
-# #                                                                                           #
-# #   3V01: Vektordaten projizieren und transformieren                                        #
-# #                                                                                           #
-# #############################################################################################
-# 
-# 
-# config <- prepare_test("3V01_reproject_vectorsp_s_m")
-# read_rdata(layertype = "sp", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("3V01_reproject_vectorsp_l")
-# read_rdata(layertype = "sp", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("l"))
-# 
-# 
-# config <- prepare_test("3V01_reproject_vectorsf_s_m")
-# read_rdata(layertype = "sf", sizes = c("s", "m"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# 
-# 
-# config <- prepare_test("3V01_reproject_vectorsf_l")
-# read_rdata(layertype = "sf", sizes = c("l"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("l"))
-# 
-# 
-# #############################################################################################
-# #                                                                                           #
-# #   3V02: Vektordaten räumlich zusammenführen (Spatial Join)                                #
-# #                                                                                           #
-# #############################################################################################
-# 
-# 
-# config <- prepare_test("3V02_spatial_joinsf")
-# read_rdata(layertype = "sf", sizes = c("s", "m", "l"), geomtypes = c("point"))
-# load("data_input/poly_2_ssf.RData")
-# point_lsf <- st_transform(point_lsf, st_crs(poly_2_ssf))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# rm(poly_2_ssf)
-# 
-# 
-# config <- prepare_test("3V02_spatial_joinsp")
-# read_rdata(layertype = "sp", sizes = c("s", "m", "l"), geomtypes = c("point"))
-# load("data_input/poly_2_ssp.RData")
-# poly_2_ssp <- spTransform(poly_2_ssp, CRSobj = CRS("+init=epsg:31256"))
-# point_ssp <- spTransform(point_ssp, CRSobj = CRS("+init=epsg:31256"))
-# point_msp <- spTransform(point_msp, CRSobj = CRS("+init=epsg:31256"))
-# point_lsp <- spTransform(point_lsp, CRSobj = CRS("+init=epsg:31256"))
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
-# rm(poly_2_ssp)
-# 
-# 
-# config <- prepare_test("3V02_spatial_join_points_to_poly_sp")
-# library(rgdal)
-# library(dplyr)
-# point_lsp <- readOGR("./data_input/point_l.shp", "point_l")
-# poly_2_ssp <- readOGR("./data_input/poly_2_s.shp", "poly_2_s")
-# join_points_to_poly_sp <- function(point, poly) {
-#   poly@data <- mutate(poly@data, id_poly = as.numeric(rownames(poly@data)))
-#   point@data <- mutate(point@data, id_point = as.numeric(rownames(point@data)))
-#   overlay <- over(point, poly)
-#   overlay <- mutate(overlay, id_point = as.numeric(rownames(overlay)))
-#   overlay <- left_join(point@data, overlay, by = c("id_point" = "id_point"))
-#   overlay_agg <- overlay %>%
-#     group_by(id_poly) %>%
-#     summarise(point_count = n()) %>%
-#     arrange(id_poly)
-#   poly@data <- left_join(poly@data, overlay_agg, by = c("id_poly" = "id_poly"))
-#   return(poly)
-# }
-# test_performance_grid(config)
-# rm(point_lsp)
-# rm(poly_2_ssp)
-# 
-# 
-# config <- prepare_test("3V02_spatial_join_points_to_poly_sf")
-# point_lsf <- st_read("./data_input/point_l.shp")
-# poly_2_ssf <- st_read("./data_input/poly_2_s.shp")
-# join_points_to_poly_sf <- function(point, poly) {
-#   poly <- mutate(poly, id_poly = as.numeric(rownames(poly)))
-#   joined = st_join(x = point, y = poly)
-#   joined_agg <- joined %>%
-#     group_by(id_poly) %>%
-#     summarise(point_count = n()) %>%
-#     arrange(id_poly)
-#   return(joined_agg)
-# }
-# test_performance_grid(config)
-# rm(point_lsf)
-# rm(poly_2_ssf)
-# 
-# 
-# #############################################################################################
-# #                                                                                           #
-# #   3V04: Vektordaten verschneiden: Überschneidung (Intersect)                              #
-# #                                                                                           #
-# #############################################################################################
-# 
-# 
-# config <- prepare_test("3V04_vector_intersect")
-# read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
-# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
-# load("data_input/poly_2_ssf.RData")
-# load("data_input/poly_2_ssp.RData")
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
-# remove_layer_objects(layertype = "sp", sizes = c("s"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-# # poly_msp mit rgeos nach ca. 2 Stunden abgebrochen
-# 
-# config <- prepare_test("3V04_vector_intersect_raster")
-# read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
-# load("data_input/poly_2_ssp.RData")
-# test_performance_grid(config)
-# remove_layer_objects(layertype = "sp", sizes = c("s"))
-# rm(poly_2_ssf)
-# rm(poly_2_ssp)
-# # Speicherüberlauf
-# 
+
+#############################################################################################
+#                                                                                           #
+#   3V01: Vektordaten projizieren und transformieren                                        #
+#                                                                                           #
+#############################################################################################
+
+
+config <- prepare_test("3V01_reproject_vectorsp_s_m")
+read_rdata(layertype = "sp", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+
+
+config <- prepare_test("3V01_reproject_vectorsp_l")
+read_rdata(layertype = "sp", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("l"))
+
+
+config <- prepare_test("3V01_reproject_vectorsf_s_m")
+read_rdata(layertype = "sf", sizes = c("s", "m"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+
+
+config <- prepare_test("3V01_reproject_vectorsf_l")
+read_rdata(layertype = "sf", sizes = c("l"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("l"))
+
+
+#############################################################################################
+#                                                                                           #
+#   3V02: Vektordaten räumlich zusammenführen (Spatial Join)                                #
+#                                                                                           #
+#############################################################################################
+
+
+config <- prepare_test("3V02_spatial_joinsf")
+read_rdata(layertype = "sf", sizes = c("s", "m", "l"), geomtypes = c("point"))
+load("data_input/poly_2_ssf.RData")
+point_lsf <- st_transform(point_lsf, st_crs(poly_2_ssf))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+rm(poly_2_ssf)
+
+
+config <- prepare_test("3V02_spatial_joinsp")
+read_rdata(layertype = "sp", sizes = c("s", "m", "l"), geomtypes = c("point"))
+load("data_input/poly_2_ssp.RData")
+poly_2_ssp <- spTransform(poly_2_ssp, CRSobj = CRS("+init=epsg:31256"))
+point_ssp <- spTransform(point_ssp, CRSobj = CRS("+init=epsg:31256"))
+point_msp <- spTransform(point_msp, CRSobj = CRS("+init=epsg:31256"))
+point_lsp <- spTransform(point_lsp, CRSobj = CRS("+init=epsg:31256"))
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s", "m"))
+rm(poly_2_ssp)
+
+
+config <- prepare_test("3V02_spatial_join_points_to_poly_sp")
+library(rgdal)
+library(dplyr)
+point_lsp <- readOGR("./data_input/point_l.shp", "point_l")
+poly_2_ssp <- readOGR("./data_input/poly_2_s.shp", "poly_2_s")
+join_points_to_poly_sp <- function(point, poly) {
+  poly@data <- mutate(poly@data, id_poly = as.numeric(rownames(poly@data)))
+  point@data <- mutate(point@data, id_point = as.numeric(rownames(point@data)))
+  overlay <- over(point, poly)
+  overlay <- mutate(overlay, id_point = as.numeric(rownames(overlay)))
+  overlay <- left_join(point@data, overlay, by = c("id_point" = "id_point"))
+  overlay_agg <- overlay %>%
+    group_by(id_poly) %>%
+    summarise(point_count = n()) %>%
+    arrange(id_poly)
+  poly@data <- left_join(poly@data, overlay_agg, by = c("id_poly" = "id_poly"))
+  return(poly)
+}
+test_performance_grid(config)
+rm(point_lsp)
+rm(poly_2_ssp)
+
+
+config <- prepare_test("3V02_spatial_join_points_to_poly_sf")
+point_lsf <- st_read("./data_input/point_l.shp")
+poly_2_ssf <- st_read("./data_input/poly_2_s.shp")
+join_points_to_poly_sf <- function(point, poly) {
+  poly <- mutate(poly, id_poly = as.numeric(rownames(poly)))
+  joined = st_join(x = point, y = poly)
+  joined_agg <- joined %>%
+    group_by(id_poly) %>%
+    summarise(point_count = n()) %>%
+    arrange(id_poly)
+  return(joined_agg)
+}
+test_performance_grid(config)
+rm(point_lsf)
+rm(poly_2_ssf)
+
+
+#############################################################################################
+#                                                                                           #
+#   3V04: Vektordaten verschneiden: Überschneidung (Intersect)                              #
+#                                                                                           #
+#############################################################################################
+
+
+config <- prepare_test("3V04_vector_intersect")
+read_rdata(layertype = "sf", sizes = c("s", "m"), geomtypes = "poly")
+read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
+load("data_input/poly_2_ssf.RData")
+load("data_input/poly_2_ssp.RData")
+test_performance_grid(config)
+remove_layer_objects(layertype = "sf", sizes = c("s", "m"))
+remove_layer_objects(layertype = "sp", sizes = c("s"))
+rm(poly_2_ssf)
+rm(poly_2_ssp)
+# poly_msp mit rgeos nach ca. 2 Stunden abgebrochen
+
+config <- prepare_test("3V04_vector_intersect_raster")
+read_rdata(layertype = "sp", sizes = c("s"), geomtypes = "poly")
+load("data_input/poly_2_ssp.RData")
+test_performance_grid(config)
+remove_layer_objects(layertype = "sp", sizes = c("s"))
+rm(poly_2_ssf)
+rm(poly_2_ssp)
+# Speicherüberlauf
+
 
 #############################################################################################
 #                                                                                           #
